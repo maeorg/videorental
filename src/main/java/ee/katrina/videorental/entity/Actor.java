@@ -1,6 +1,5 @@
 package ee.katrina.videorental.entity;
 
-import ee.katrina.videorental.model.Genre;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,21 +13,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Movie {
+public class Actor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
-    private String title;
-    private Integer releaseYear;
-    private Integer lengthInMinutes;
-    private List<Genre> genres;
+    private String firstName;
+    private String lastName;
 
-    @ManyToMany(mappedBy = "movies")
-    private List<Director> directors;
-
-    @ManyToMany(mappedBy = "movies")
-    private List<Actor> stars;
-
+    @ManyToMany
+    private List<Movie> movies;
 }
