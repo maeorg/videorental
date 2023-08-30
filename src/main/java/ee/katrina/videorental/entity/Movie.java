@@ -3,8 +3,10 @@ package ee.katrina.videorental.entity;
 import ee.katrina.videorental.model.Genre;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,10 +27,20 @@ public class Movie {
     private Integer lengthInMinutes;
     private List<Genre> genres;
 
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    private LocalDateTime lastModifiedDate;
+
     @ManyToMany(mappedBy = "movies")
     private List<Director> directors;
 
     @ManyToMany(mappedBy = "movies")
     private List<Actor> stars;
+
+    @ManyToMany(mappedBy = "movies")
+    private List<Writer> writers;
 
 }

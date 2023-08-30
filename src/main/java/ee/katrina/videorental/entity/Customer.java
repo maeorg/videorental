@@ -2,8 +2,11 @@ package ee.katrina.videorental.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -22,6 +25,13 @@ public class Customer {
     private String lastName;
     private String username;
     private String password;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    private LocalDateTime lastModifiedDate;
 
     @OneToOne(mappedBy = "customer")
     private ContactData contactData;

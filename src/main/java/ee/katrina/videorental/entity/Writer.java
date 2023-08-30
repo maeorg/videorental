@@ -3,10 +3,10 @@ package ee.katrina.videorental.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -15,14 +15,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ContactData {
+public class Writer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
-    private String email;
-    private String phoneNumber;
+    private String firstName;
+    private String lastName;
+    private Integer birthYear;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -31,6 +32,6 @@ public class ContactData {
     @UpdateTimestamp
     private LocalDateTime lastModifiedDate;
 
-    @OneToOne
-    private Customer customer;
+    @ManyToMany
+    private List<Movie> movies;
 }
