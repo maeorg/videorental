@@ -34,13 +34,13 @@ public class Movie {
     @UpdateTimestamp
     private LocalDateTime lastModifiedDate;
 
-    @ManyToMany(mappedBy = "movies")
+    @ManyToMany(cascade = {jakarta.persistence.CascadeType.ALL})
     private List<Director> directors;
 
-    @ManyToMany(mappedBy = "movies")
+    @ManyToMany(cascade = {jakarta.persistence.CascadeType.ALL})
     private List<Actor> stars;
 
-    @ManyToMany(mappedBy = "movies")
+    @ManyToMany(cascade = {jakarta.persistence.CascadeType.ALL})
     private List<Writer> writers;
 
 }

@@ -6,7 +6,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +31,4 @@ public class Writer {
     @UpdateTimestamp
     private LocalDateTime lastModifiedDate;
 
-    @ManyToMany
-    private List<Movie> movies;
 }

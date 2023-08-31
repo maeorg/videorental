@@ -3,8 +3,10 @@ package ee.katrina.videorental.bootstrap;
 import ee.katrina.videorental.entity.*;
 import ee.katrina.videorental.model.Genre;
 import ee.katrina.videorental.repository.*;
+import ee.katrina.videorental.service.MovieService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -27,9 +29,9 @@ public class BootstrapData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         loadActorData();
-        loadDirectorData();
-        loadWriterData();
-        loadMovieData();
+//        loadDirectorData();
+//        loadWriterData();
+//        loadMovieData();
         loadCustomerData();
     }
 
@@ -59,9 +61,10 @@ public class BootstrapData implements CommandLineRunner {
                 .build();
 
         actorRepository.saveAll(Arrays.asList(actor1, actor2, actor3));
-    }
+        System.out.println("Loaded actors data");
+//    }
 
-    private void loadDirectorData() {
+//    private void loadDirectorData() {
         Director director1 = Director.builder()
                 .firstName("Lana")
                 .lastName("Wachowski")
@@ -79,9 +82,10 @@ public class BootstrapData implements CommandLineRunner {
                 .build();
 
         directorRepository.saveAll(Arrays.asList(director1, director2));
-    }
+        System.out.println("Loaded directors data");
+//    }
 
-    private void loadWriterData() {
+//    private void loadWriterData() {
         Writer writer1 = Writer.builder()
                 .firstName("Lilly")
                 .lastName("Wachowski")
@@ -99,27 +103,26 @@ public class BootstrapData implements CommandLineRunner {
                 .build();
 
         writerRepository.saveAll(Arrays.asList(writer1, writer2));
-    }
+        System.out.println("Loaded writers data");
+//    }
 
-    private void loadMovieData() {
-        if (movieRepository.count() == 0){
-
-            Director director1 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
-                    "Lana", "Wachowski", 1965);
-            Director director2 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
-                    "Lilly", "Wachowski", 1967);
-
-            Writer writer1 = writerRepository.findWriterByFirstNameAndLastNameAndBirthYear(
-                    "Lana", "Wachowski", 1965);
-            Writer writer2 = writerRepository.findWriterByFirstNameAndLastNameAndBirthYear(
-                    "Lilly", "Wachowski", 1967);
-
-            Actor actor1 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
-                    "Keanu", "Reeves", 1964);
-            Actor actor2 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
-                    "Laurence", "Fishburne", 1961);
-            Actor actor3 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
-                    "Carrie-Anne", "Moss", 1967);
+//    private void loadMovieData() {
+//            Director director1 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
+//                    "Lana", "Wachowski", 1965);
+//            Director director2 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
+//                    "Lilly", "Wachowski", 1967);
+//
+//            Writer writer1 = writerRepository.findWriterByFirstNameAndLastNameAndBirthYear(
+//                    "Lana", "Wachowski", 1965);
+//            Writer writer2 = writerRepository.findWriterByFirstNameAndLastNameAndBirthYear(
+//                    "Lilly", "Wachowski", 1967);
+//
+//            Actor actor1 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
+//                    "Keanu", "Reeves", 1964);
+//            Actor actor2 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
+//                    "Laurence", "Fishburne", 1961);
+//            Actor actor3 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
+//                    "Carrie-Anne", "Moss", 1967);
 
             Movie movie1 = Movie.builder()
                     .title("The Matrix")
@@ -134,12 +137,10 @@ public class BootstrapData implements CommandLineRunner {
                     .build();
 
             movieRepository.saveAll(Arrays.asList(movie1));
-        }
-
+        System.out.println("Loaded movies data");
     }
 
     private void loadCustomerData() {
-        if (customerRepository.count() == 0) {
             ContactData contactData1 = ContactData.builder()
                     .email("one@one.ee")
                     .phoneNumber("952039723")
@@ -158,7 +159,6 @@ public class BootstrapData implements CommandLineRunner {
             ContactData savedContactData2 = contactDataRepository.save(contactData2);
 
             Customer customer1 = Customer.builder()
-                    .id(UUID.randomUUID())
                     .firstName("Customer")
                     .lastName("One")
                     .username("1")
@@ -169,7 +169,6 @@ public class BootstrapData implements CommandLineRunner {
                     .build();
 
             Customer customer2 = Customer.builder()
-                    .id(UUID.randomUUID())
                     .firstName("Customer")
                     .lastName("Two")
                     .username("2")
@@ -180,7 +179,6 @@ public class BootstrapData implements CommandLineRunner {
                     .build();
 
             customerRepository.saveAll(Arrays.asList(customer1, customer2));
-        }
-
+        System.out.println("Loaded customers data");
     }
 }
