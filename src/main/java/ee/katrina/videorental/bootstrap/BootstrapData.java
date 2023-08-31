@@ -3,16 +3,13 @@ package ee.katrina.videorental.bootstrap;
 import ee.katrina.videorental.entity.*;
 import ee.katrina.videorental.model.Genre;
 import ee.katrina.videorental.repository.*;
-import ee.katrina.videorental.service.MovieService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor

@@ -1,7 +1,9 @@
 package ee.katrina.videorental.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,8 +25,11 @@ public class Actor {
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
+    @NotNull
+    @NotBlank
     private String firstName;
     private String lastName;
+    @NotNull
     private Integer birthYear;
 
     @CreationTimestamp

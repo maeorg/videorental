@@ -1,9 +1,11 @@
 package ee.katrina.videorental.service;
 
-import org.springframework.stereotype.Service;
+import ee.katrina.videorental.entity.Movie;
 
-@Service
-public class MovieService {
+import java.util.List;
+
+public interface MovieService {
 
 
+    List<Movie> listAllMovies();
 }
