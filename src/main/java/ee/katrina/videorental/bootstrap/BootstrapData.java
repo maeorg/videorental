@@ -27,7 +27,7 @@ public class BootstrapData implements CommandLineRunner {
 
     @Transactional
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         loadActorData();
         loadDirectorData();
         loadWriterData();
@@ -36,77 +36,84 @@ public class BootstrapData implements CommandLineRunner {
     }
 
     private void loadActorData() {
-        Actor actor1 = Actor.builder()
-                .firstName("Keanu")
-                .lastName("Reeves")
-                .birthYear(1964)
-                .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
-                .build();
+        if (actorRepository.count() == 0) {
+            Actor actor1 = Actor.builder()
+                    .firstName("Keanu")
+                    .lastName("Reeves")
+                    .birthYear(1964)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
 
-        Actor actor2 = Actor.builder()
-                .firstName("Laurence")
-                .lastName("Fishburne")
-                .birthYear(1961)
-                .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
-                .build();
+            Actor actor2 = Actor.builder()
+                    .firstName("Laurence")
+                    .lastName("Fishburne")
+                    .birthYear(1961)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
 
-        Actor actor3 = Actor.builder()
-                .firstName("Carrie-Anne")
-                .lastName("Moss")
-                .birthYear(1967)
-                .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
-                .build();
+            Actor actor3 = Actor.builder()
+                    .firstName("Carrie-Anne")
+                    .lastName("Moss")
+                    .birthYear(1967)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
 
-        actorRepository.saveAll(Arrays.asList(actor1, actor2, actor3));
-        System.out.println("Loaded actors data");
+            actorRepository.saveAll(Arrays.asList(actor1, actor2, actor3));
+            System.out.println("Loaded actors data");
+        }
     }
 
     private void loadDirectorData() {
-        Director director1 = Director.builder()
-                .firstName("Lana")
-                .lastName("Wachowski")
-                .birthYear(1965)
-                .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
-                .build();
+        if (directorRepository.count() == 0) {
+            Director director1 = Director.builder()
+                    .firstName("Lana")
+                    .lastName("Wachowski")
+                    .birthYear(1965)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
 
-        Director director2 = Director.builder()
-                .firstName("Lilly")
-                .lastName("Wachowski")
-                .birthYear(1967)
-                .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
-                .build();
+            Director director2 = Director.builder()
+                    .firstName("Lilly")
+                    .lastName("Wachowski")
+                    .birthYear(1967)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
 
-        directorRepository.saveAll(Arrays.asList(director1, director2));
-        System.out.println("Loaded directors data");
+            directorRepository.saveAll(Arrays.asList(director1, director2));
+            System.out.println("Loaded directors data");
+        }
     }
 
     private void loadWriterData() {
-        Writer writer1 = Writer.builder()
-                .firstName("Lilly")
-                .lastName("Wachowski")
-                .birthYear(1967)
-                .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
-                .build();
+        if (writerRepository.count() == 0) {
+            Writer writer1 = Writer.builder()
+                    .firstName("Lilly")
+                    .lastName("Wachowski")
+                    .birthYear(1967)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
 
-        Writer writer2 = Writer.builder()
-                .firstName("Lana")
-                .lastName("Wachowski")
-                .birthYear(1965)
-                .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
-                .build();
+            Writer writer2 = Writer.builder()
+                    .firstName("Lana")
+                    .lastName("Wachowski")
+                    .birthYear(1965)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
 
-        writerRepository.saveAll(Arrays.asList(writer1, writer2));
-        System.out.println("Loaded writers data");
+            writerRepository.saveAll(Arrays.asList(writer1, writer2));
+            System.out.println("Loaded writers data");
+        }
     }
 
     private void loadMovieData() {
+        if (movieRepository.count() == 0) {
             Director director1 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
                     "Lana", "Wachowski", 1965);
             Director director2 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
@@ -137,10 +144,12 @@ public class BootstrapData implements CommandLineRunner {
                     .build();
 
             movieRepository.saveAll(Arrays.asList(movie1));
-        System.out.println("Loaded movies data");
+            System.out.println("Loaded movies data");
+        }
     }
 
     private void loadCustomerData() {
+        if (customerRepository.count() == 0) {
             ContactData contactData1 = ContactData.builder()
                     .email("one@one.ee")
                     .phoneNumber("952039723")
@@ -179,6 +188,7 @@ public class BootstrapData implements CommandLineRunner {
                     .build();
 
             customerRepository.saveAll(Arrays.asList(customer1, customer2));
-        System.out.println("Loaded customers data");
+            System.out.println("Loaded customers data");
+        }
     }
 }
