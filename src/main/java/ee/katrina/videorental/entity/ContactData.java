@@ -19,7 +19,7 @@ public class ContactData {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
     private String email;
     private String phoneNumber;
 

@@ -29,9 +29,9 @@ public class BootstrapData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         loadActorData();
-//        loadDirectorData();
-//        loadWriterData();
-//        loadMovieData();
+        loadDirectorData();
+        loadWriterData();
+        loadMovieData();
         loadCustomerData();
     }
 
@@ -62,9 +62,9 @@ public class BootstrapData implements CommandLineRunner {
 
         actorRepository.saveAll(Arrays.asList(actor1, actor2, actor3));
         System.out.println("Loaded actors data");
-//    }
+    }
 
-//    private void loadDirectorData() {
+    private void loadDirectorData() {
         Director director1 = Director.builder()
                 .firstName("Lana")
                 .lastName("Wachowski")
@@ -83,9 +83,9 @@ public class BootstrapData implements CommandLineRunner {
 
         directorRepository.saveAll(Arrays.asList(director1, director2));
         System.out.println("Loaded directors data");
-//    }
+    }
 
-//    private void loadWriterData() {
+    private void loadWriterData() {
         Writer writer1 = Writer.builder()
                 .firstName("Lilly")
                 .lastName("Wachowski")
@@ -104,25 +104,25 @@ public class BootstrapData implements CommandLineRunner {
 
         writerRepository.saveAll(Arrays.asList(writer1, writer2));
         System.out.println("Loaded writers data");
-//    }
+    }
 
-//    private void loadMovieData() {
-//            Director director1 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
-//                    "Lana", "Wachowski", 1965);
-//            Director director2 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
-//                    "Lilly", "Wachowski", 1967);
-//
-//            Writer writer1 = writerRepository.findWriterByFirstNameAndLastNameAndBirthYear(
-//                    "Lana", "Wachowski", 1965);
-//            Writer writer2 = writerRepository.findWriterByFirstNameAndLastNameAndBirthYear(
-//                    "Lilly", "Wachowski", 1967);
-//
-//            Actor actor1 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
-//                    "Keanu", "Reeves", 1964);
-//            Actor actor2 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
-//                    "Laurence", "Fishburne", 1961);
-//            Actor actor3 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
-//                    "Carrie-Anne", "Moss", 1967);
+    private void loadMovieData() {
+            Director director1 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
+                    "Lana", "Wachowski", 1965);
+            Director director2 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
+                    "Lilly", "Wachowski", 1967);
+
+            Writer writer1 = writerRepository.findWriterByFirstNameAndLastNameAndBirthYear(
+                    "Lana", "Wachowski", 1965);
+            Writer writer2 = writerRepository.findWriterByFirstNameAndLastNameAndBirthYear(
+                    "Lilly", "Wachowski", 1967);
+
+            Actor actor1 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
+                    "Keanu", "Reeves", 1964);
+            Actor actor2 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
+                    "Laurence", "Fishburne", 1961);
+            Actor actor3 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
+                    "Carrie-Anne", "Moss", 1967);
 
             Movie movie1 = Movie.builder()
                     .title("The Matrix")
