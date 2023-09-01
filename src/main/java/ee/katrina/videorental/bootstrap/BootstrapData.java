@@ -21,7 +21,7 @@ public class BootstrapData implements CommandLineRunner {
     private final DirectorRepository directorRepository;
     private final MovieRepository movieRepository;
     private final WriterRepository writerRepository;
-    private final RentalTransactionRepository rentalTransactionRepository;
+    private final RentalRepository rentalRepository;
 
     @Transactional
     @Override
@@ -192,7 +192,7 @@ public class BootstrapData implements CommandLineRunner {
     }
 
     private void loadRentalTransactionData() {
-        if (rentalTransactionRepository.count() == 0) {
+        if (rentalRepository.count() == 0) {
             Customer customer = customerRepository.findAll().get(0);
             Movie movie1 = movieRepository.findAll().get(0);
             RentalTransactionLine rentalTransactionLine = RentalTransactionLine.builder()
@@ -202,7 +202,7 @@ public class BootstrapData implements CommandLineRunner {
                     .customer(customer)
                     .rentalTransactionLines(Arrays.asList(rentalTransactionLine))
                     .build();
-            rentalTransactionRepository.save(rentalTransaction);
+            rentalRepository.save(rentalTransaction);
             System.out.println("Loaded rental transactions data");
         }
     }
