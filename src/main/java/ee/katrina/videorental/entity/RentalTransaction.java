@@ -1,8 +1,6 @@
 package ee.katrina.videorental.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -10,33 +8,22 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class Customer {
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class RentalTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
-    @NotNull
-    @NotBlank
-    private String firstName;
-    @NotNull
-    @NotBlank
-    private String lastName;
-    @NotNull
-    @NotBlank
-    private String username;
-    @NotNull
-    @NotBlank
-    private String password;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -45,7 +32,10 @@ public class Customer {
     @UpdateTimestamp
     private LocalDateTime lastModifiedDate;
 
-    @OneToOne(cascade = {jakarta.persistence.CascadeType.ALL})
-    private ContactData contactData;
+    @ManyToOne
+    private Customer customer;
+
+    @OneToMany(cascade = {jakarta.persistence.CascadeType.ALL})
+    private List<RentalTransactionLine> rentalTransactionLines;
 
 }
