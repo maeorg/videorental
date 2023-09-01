@@ -37,9 +37,9 @@ public class MovieController {
     // add movie
     @PostMapping(value = MOVIE_PATH)
     public ResponseEntity addMovie(@RequestBody MovieDTO movieDto) {
-        MovieDTO movieDTO = movieService.addMovie(movieDto);
+        MovieDTO savedMovieDTO = movieService.addMovie(movieDto);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", MOVIE_PATH + "/" + movieDTO.getId().toString());
+        headers.add("Location", MOVIE_PATH + "/" + savedMovieDTO.getId().toString());
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
@@ -52,7 +52,7 @@ public class MovieController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // change movie data
+    // update movie
     @PutMapping(MOVIE_PATH_ID)
     public ResponseEntity updateMovieById(@PathVariable UUID movieId, @RequestBody MovieDTO movieDto) {
         if (movieService.updateMovieById(movieId, movieDto).isEmpty()) {
@@ -60,7 +60,4 @@ public class MovieController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
-    // change some movie data
 }
