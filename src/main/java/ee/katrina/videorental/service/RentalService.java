@@ -17,4 +17,5 @@ public interface RentalService {
     boolean deleteRentalById(UUID rentalId);
 
     Optional<RentalTransaction> updateRentalById(UUID rentalId, RentalTransaction rentalTransaction);
+
 }

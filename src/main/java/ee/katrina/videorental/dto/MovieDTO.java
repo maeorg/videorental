@@ -20,6 +20,8 @@ public class MovieDTO {
     private String title;
     private Integer releaseYear;
     private Integer lengthInMinutes;
+    private Integer totalQuantity;
+    private Integer notRentedOutQuantity;
     private List<Genre> genres;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;

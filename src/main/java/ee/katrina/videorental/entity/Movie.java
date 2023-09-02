@@ -34,6 +34,10 @@ public class Movie {
     private Integer releaseYear;
     @NotNull
     private Integer lengthInMinutes;
+
+    private Integer totalQuantity;
+    private Integer notRentedOutQuantity;
+
     private List<Genre> genres;
 
     @CreationTimestamp

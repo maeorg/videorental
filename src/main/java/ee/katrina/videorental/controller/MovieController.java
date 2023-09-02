@@ -20,6 +20,13 @@ public class MovieController {
     @Autowired
     MovieService movieService;
 
+    // get all available (not rented out) movies
+    @GetMapping(value = MOVIE_PATH + "/available")
+    public ResponseEntity getAllAvailableMovies() {
+        List<MovieDTO> movieList = movieService.getAllAvailableMovies();
+        return new ResponseEntity(movieList, HttpStatus.OK);
+    }
+
     // get all movies
     @GetMapping(value = MOVIE_PATH)
     public ResponseEntity getAllMovies() {

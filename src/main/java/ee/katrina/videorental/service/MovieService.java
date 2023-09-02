@@ -2,6 +2,7 @@ package ee.katrina.videorental.service;
 
 import ee.katrina.videorental.dto.MovieDTO;
 import ee.katrina.videorental.entity.Movie;
+import ee.katrina.videorental.entity.RentalTransaction;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +20,8 @@ public interface MovieService {
     boolean deleteMovieById(UUID movieId);
 
     Optional<MovieDTO> updateMovieById(UUID movieId, MovieDTO movieDto);
+
+    void decreaseQuantity(RentalTransaction rentalTransaction);
+
+    List<MovieDTO> getAllAvailableMovies();
 }

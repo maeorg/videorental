@@ -15,6 +15,9 @@ public class RentalServiceImpl implements RentalService {
     @Autowired
     RentalRepository rentalRepository;
 
+    @Autowired
+    MovieService movieService;
+
     @Override
     public List<RentalTransaction> getAllRentals() {
         return rentalRepository.findAll();
@@ -27,6 +30,7 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public RentalTransaction addRental(RentalTransaction rentalTransaction) {
+        movieService.decreaseQuantity(rentalTransaction);
         return rentalRepository.save(rentalTransaction);
     }
 
@@ -48,4 +52,5 @@ public class RentalServiceImpl implements RentalService {
         rentalTransaction.setId(foundRental.get().getId());
         return Optional.ofNullable(rentalRepository.save(rentalTransaction));
     }
+
 }

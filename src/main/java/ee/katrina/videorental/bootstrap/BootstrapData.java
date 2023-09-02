@@ -3,6 +3,8 @@ package ee.katrina.videorental.bootstrap;
 import ee.katrina.videorental.entity.*;
 import ee.katrina.videorental.model.Genre;
 import ee.katrina.videorental.repository.*;
+import ee.katrina.videorental.service.MovieService;
+import ee.katrina.videorental.service.RentalService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +24,7 @@ public class BootstrapData implements CommandLineRunner {
     private final MovieRepository movieRepository;
     private final WriterRepository writerRepository;
     private final RentalRepository rentalRepository;
+    private final MovieService movieService;
 
     @Transactional
     @Override
@@ -134,6 +137,8 @@ public class BootstrapData implements CommandLineRunner {
                     .title("The Matrix")
                     .releaseYear(1999)
                     .lengthInMinutes(136)
+                    .totalQuantity(5)
+                    .notRentedOutQuantity(5)
                     .genres(Arrays.asList(Genre.ACTION, Genre.SCIFI))
                     .directors(Arrays.asList(director1, director2))
                     .stars(Arrays.asList(actor1, actor2, actor3))
@@ -195,14 +200,20 @@ public class BootstrapData implements CommandLineRunner {
         if (rentalRepository.count() == 0) {
             Customer customer = customerRepository.findAll().get(0);
             Movie movie1 = movieRepository.findAll().get(0);
-            RentalTransactionLine rentalTransactionLine = RentalTransactionLine.builder()
+            RentalTransactionLine rentalTransactionLine1 = RentalTransactionLine.builder()
                     .movie(movie1)
+                    .quantity(1)
+                    .build();
+            RentalTransactionLine rentalTransactionLine2 = RentalTransactionLine.builder()
+                    .movie(movie1)
+                    .quantity(2)
                     .build();
             RentalTransaction rentalTransaction = RentalTransaction.builder()
                     .customer(customer)
-                    .rentalTransactionLines(Arrays.asList(rentalTransactionLine))
+                    .rentalTransactionLines(Arrays.asList(rentalTransactionLine1, rentalTransactionLine2))
                     .build();
             rentalRepository.save(rentalTransaction);
+            movieService.decreaseQuantity(rentalTransaction);
             System.out.println("Loaded rental transactions data");
         }
     }

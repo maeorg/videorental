@@ -2,6 +2,8 @@ package ee.katrina.videorental.service;
 
 import ee.katrina.videorental.dto.MovieDTO;
 import ee.katrina.videorental.entity.Movie;
+import ee.katrina.videorental.entity.RentalTransaction;
+import ee.katrina.videorental.entity.RentalTransactionLine;
 import ee.katrina.videorental.mappers.MovieMapper;
 import ee.katrina.videorental.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +58,27 @@ public class MovieServiceImpl implements MovieService {
         movieDto.setId(foundMovie.get().getId());
         return Optional.ofNullable(movieMapper.movieToMovieDto(movieRepository.save(
                 movieMapper.movieDtoToMovie(movieDto))));
+    }
+
+    @Override
+    public void decreaseQuantity(RentalTransaction rentalTransaction) {
+        for (RentalTransactionLine line : rentalTransaction.getRentalTransactionLines()) {
+            Optional<Movie> foundMovie = movieRepository.findById(line.getMovie().getId());
+            if (foundMovie.isEmpty()) {
+                throw new RuntimeException("Movie not found");
+            }
+            Integer notRentedOutQuantity = foundMovie.get().getNotRentedOutQuantity();
+            if (notRentedOutQuantity < line.getQuantity()) {
+                throw new RuntimeException("Not enough copies of movie to rent out");
+            }
+            foundMovie.get().setNotRentedOutQuantity(notRentedOutQuantity - line.getQuantity());
+        }
+    }
+
+    @Override
+    public List<MovieDTO> getAllAvailableMovies() {
+        return movieRepository.findAllByNotRentedOutQuantityIsGreaterThan(0).stream()
+                .map(movieMapper::movieToMovieDto)
+                .collect(Collectors.toList());
     }
 }
