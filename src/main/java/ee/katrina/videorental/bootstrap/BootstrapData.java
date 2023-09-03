@@ -2,6 +2,7 @@ package ee.katrina.videorental.bootstrap;
 
 import ee.katrina.videorental.entity.*;
 import ee.katrina.videorental.model.Genre;
+import ee.katrina.videorental.model.MovieType;
 import ee.katrina.videorental.repository.*;
 import ee.katrina.videorental.service.MovieService;
 import ee.katrina.videorental.service.RentalService;
@@ -25,6 +26,7 @@ public class BootstrapData implements CommandLineRunner {
     private final WriterRepository writerRepository;
     private final RentalRepository rentalRepository;
     private final MovieService movieService;
+    private final RentalService rentalService;
 
     @Transactional
     @Override
@@ -137,6 +139,7 @@ public class BootstrapData implements CommandLineRunner {
                     .title("The Matrix")
                     .releaseYear(1999)
                     .lengthInMinutes(136)
+                    .movieType(MovieType.NEW)
                     .totalQuantity(5)
                     .notRentedOutQuantity(5)
                     .genres(Arrays.asList(Genre.ACTION, Genre.SCIFI))
@@ -203,17 +206,18 @@ public class BootstrapData implements CommandLineRunner {
             RentalTransactionLine rentalTransactionLine1 = RentalTransactionLine.builder()
                     .movie(movie1)
                     .quantity(1)
+                    .daysRented(3)
                     .build();
             RentalTransactionLine rentalTransactionLine2 = RentalTransactionLine.builder()
                     .movie(movie1)
                     .quantity(2)
+                    .daysRented(1)
                     .build();
             RentalTransaction rentalTransaction = RentalTransaction.builder()
                     .customer(customer)
                     .rentalTransactionLines(Arrays.asList(rentalTransactionLine1, rentalTransactionLine2))
                     .build();
-            rentalRepository.save(rentalTransaction);
-            movieService.decreaseQuantity(rentalTransaction);
+            rentalService.addRental(rentalTransaction);
             System.out.println("Loaded rental transactions data");
         }
     }

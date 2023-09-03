@@ -1,6 +1,7 @@
 package ee.katrina.videorental.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -37,5 +38,7 @@ public class RentalTransaction {
 
     @OneToMany(cascade = {jakarta.persistence.CascadeType.ALL})
     private List<RentalTransactionLine> rentalTransactionLines;
+
+    private double totalSum;
 
 }

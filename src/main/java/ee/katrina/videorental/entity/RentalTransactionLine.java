@@ -1,6 +1,7 @@
 package ee.katrina.videorental.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -36,6 +37,13 @@ public class RentalTransactionLine {
     private Movie movie;
 
     @NotNull
+    @Min(value = 0)
     private Integer quantity;
+
+    @NotNull
+    @Min(value = 0)
+    private Integer daysRented;
+
+    private double price;
 
 }

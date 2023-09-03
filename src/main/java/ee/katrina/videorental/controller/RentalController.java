@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,10 +34,11 @@ public class RentalController {
     }
 
     @PostMapping(value = RENTAL_TRANSACTION)
-    public ResponseEntity addRental(@RequestBody RentalTransaction rentalTransaction) {
+    public ResponseEntity addRental(@Validated @RequestBody RentalTransaction rentalTransaction) {
         RentalTransaction savedRentalTransaction = rentalService.addRental(rentalTransaction);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", RENTAL_TRANSACTION + "/" + savedRentalTransaction.getId().toString());
+        headers.add("Location", RENTAL_TRANSACTION + "/" +
+                savedRentalTransaction.getId().toString());
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
@@ -49,7 +51,8 @@ public class RentalController {
     }
 
     @PutMapping(RENTAL_TRANSACTION_ID)
-    public ResponseEntity updateRentalById(@PathVariable UUID rentalId, @RequestBody RentalTransaction rentalTransaction) {
+    public ResponseEntity updateRentalById(@PathVariable UUID rentalId,
+                                           @Validated @RequestBody RentalTransaction rentalTransaction) {
         if (rentalService.updateRentalById(rentalId, rentalTransaction).isEmpty()) {
             throw new RuntimeException("Rental not found");
         }

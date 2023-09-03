@@ -1,6 +1,7 @@
 package ee.katrina.videorental.entity;
 
 import ee.katrina.videorental.model.Genre;
+import ee.katrina.videorental.model.MovieType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -34,8 +35,11 @@ public class Movie {
     private Integer releaseYear;
     @NotNull
     private Integer lengthInMinutes;
-
+    @NotNull
+    private MovieType movieType;
+    @NotNull
     private Integer totalQuantity;
+    @NotNull
     private Integer notRentedOutQuantity;
 
     private List<Genre> genres;

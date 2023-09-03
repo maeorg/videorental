@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class MovieController {
 
     // add movie
     @PostMapping(value = MOVIE_PATH)
-    public ResponseEntity addMovie(@RequestBody MovieDTO movieDto) {
+    public ResponseEntity addMovie(@Validated @RequestBody MovieDTO movieDto) {
         MovieDTO savedMovieDTO = movieService.addMovie(movieDto);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", MOVIE_PATH + "/" + savedMovieDTO.getId().toString());
@@ -61,7 +62,7 @@ public class MovieController {
 
     // update movie
     @PutMapping(MOVIE_PATH_ID)
-    public ResponseEntity updateMovieById(@PathVariable UUID movieId, @RequestBody MovieDTO movieDto) {
+    public ResponseEntity updateMovieById(@PathVariable UUID movieId, @Validated @RequestBody MovieDTO movieDto) {
         if (movieService.updateMovieById(movieId, movieDto).isEmpty()) {
             throw new RuntimeException("Movie not found");
         }

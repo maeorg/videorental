@@ -18,4 +18,6 @@ public interface RentalService {
 
     Optional<RentalTransaction> updateRentalById(UUID rentalId, RentalTransaction rentalTransaction);
 
+    RentalTransaction calculateRentalPrice(RentalTransaction rentalTransaction);
+
 }

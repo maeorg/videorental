@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class CustomerController {
 
     // add customer
     @PostMapping(value = CUSTOMER_PATH)
-    public ResponseEntity addCustomer(@RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity addCustomer(@Validated @RequestBody CustomerDTO customerDTO) {
         CustomerDTO savedCustomerDTO = customerService.addCustomer(customerDTO);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", CUSTOMER_PATH + "/" + savedCustomerDTO.getId().toString());
@@ -54,7 +55,8 @@ public class CustomerController {
 
     // update customer
     @PutMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity updateCustomerById(@PathVariable UUID customerId, @RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity updateCustomerById(@PathVariable UUID customerId,
+                                             @Validated @RequestBody CustomerDTO customerDTO) {
         if (customerService.updateCustomerById(customerId, customerDTO).isEmpty()) {
             throw new RuntimeException("Customer not found");
         }

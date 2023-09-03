@@ -4,6 +4,7 @@ import ee.katrina.videorental.entity.Actor;
 import ee.katrina.videorental.entity.Director;
 import ee.katrina.videorental.entity.Writer;
 import ee.katrina.videorental.model.Genre;
+import ee.katrina.videorental.model.MovieType;
 import jakarta.persistence.ManyToMany;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class MovieDTO {
     private String title;
     private Integer releaseYear;
     private Integer lengthInMinutes;
+    private MovieType movieType;
     private Integer totalQuantity;
     private Integer notRentedOutQuantity;
     private List<Genre> genres;
