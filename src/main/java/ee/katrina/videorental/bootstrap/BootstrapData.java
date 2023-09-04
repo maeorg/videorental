@@ -227,7 +227,7 @@ public class BootstrapData implements CommandLineRunner {
                     .build();
             RentalTransactionLine rentalTransactionLine2 = RentalTransactionLine.builder()
                     .movie(movie2)
-                    .daysRented(4)
+                    .daysRented(1)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
                     .build();

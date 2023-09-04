@@ -96,6 +96,7 @@ public class RentalServiceImpl implements RentalService {
                     price -= PREMIUM_PRICE;
                     customer.setBonusPoints(customer.getBonusPoints() - 25);
                     System.out.println("Paid with 25 bonus points");
+                    daysRented -= 1;
                 }
                 bonusPoints += 2L;
             } else {
