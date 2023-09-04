@@ -1,9 +1,11 @@
 package ee.katrina.videorental.service;
 
+import ee.katrina.videorental.entity.Customer;
 import ee.katrina.videorental.entity.RentalTransaction;
 import ee.katrina.videorental.entity.RentalTransactionLine;
 import ee.katrina.videorental.entity.ReturnTransaction;
 import ee.katrina.videorental.model.MovieType;
+import ee.katrina.videorental.repository.CustomerRepository;
 import ee.katrina.videorental.repository.RentalRepository;
 import ee.katrina.videorental.repository.ReturnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class RentalServiceImpl implements RentalService {
 
     @Autowired
     MovieService movieService;
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     @Value("${movie.price.premium}")
     Integer PREMIUM_PRICE;
@@ -74,6 +79,8 @@ public class RentalServiceImpl implements RentalService {
 //    Old film - Price is BASIC_PRICE for the first 5 days and then BASIC_PRICE times the number of days over 5
     public RentalTransaction calculateRentalPrice(RentalTransaction rentalTransaction) {
         double totalSum = 0;
+        Long bonusPoints = 0L;
+        Customer customer = rentalTransaction.getCustomer();
         for (RentalTransactionLine transactionLine : rentalTransaction.getRentalTransactionLines()) {
             if (transactionLine.getMovie().isRentedOut()) {
                 throw new RuntimeException("Movie is already rented out");
@@ -82,11 +89,25 @@ public class RentalServiceImpl implements RentalService {
                 transactionLine.setTransactionFinished(false);
             }
             MovieType type = transactionLine.getMovie().getMovieType();
-            Integer daysRented = transactionLine.getDaysRented();
+            int daysRented = transactionLine.getDaysRented();
             double price = calculatePriceForTransactionLine(type, daysRented);
+            if (type == MovieType.NEW) {
+                while (customer.getBonusPoints() >= 25 && daysRented > 0) {
+                    price -= PREMIUM_PRICE;
+                    customer.setBonusPoints(customer.getBonusPoints() - 25);
+                    System.out.println("Paid with 25 bonus points");
+                }
+                bonusPoints += 2L;
+            } else {
+                bonusPoints += 1L;
+            }
             transactionLine.setPrice(price);
             totalSum += price;
         }
+
+        customer.setBonusPoints(customer.getBonusPoints() + bonusPoints);
+        customerRepository.save(customer);
+
         rentalTransaction.setTotalSum(totalSum);
         return rentalTransaction;
     }

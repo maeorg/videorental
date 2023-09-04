@@ -193,6 +193,7 @@ public class BootstrapData implements CommandLineRunner {
                     .username("1")
                     .password("1")
                     .contactData(savedContactData1)
+                    .bonusPoints(55L)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
@@ -203,6 +204,7 @@ public class BootstrapData implements CommandLineRunner {
                     .username("2")
                     .password("2")
                     .contactData(savedContactData2)
+                    .bonusPoints(0L)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
@@ -225,7 +227,7 @@ public class BootstrapData implements CommandLineRunner {
                     .build();
             RentalTransactionLine rentalTransactionLine2 = RentalTransactionLine.builder()
                     .movie(movie2)
-                    .daysRented(1)
+                    .daysRented(4)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
                     .build();

@@ -77,7 +77,7 @@ public class RentalController {
         return new ResponseEntity(returns, HttpStatus.OK);
     }
 
-    @GetMapping(RENTAL_TRANSACTION_ID)
+    @GetMapping(RETURN_TRANSACTION_ID)
     public ResponseEntity getReturnTransactionById(@PathVariable UUID returnId) {
         Optional<ReturnTransaction> returnTransaction = rentalService.getReturnTransactionById(returnId);
         return new ResponseEntity<>(returnTransaction, HttpStatus.OK);
