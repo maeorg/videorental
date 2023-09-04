@@ -22,8 +22,7 @@ public class MovieDTO {
     private Integer releaseYear;
     private Integer lengthInMinutes;
     private MovieType movieType;
-    private Integer totalQuantity;
-    private Integer notRentedOutQuantity;
+    private boolean rentedOut;
     private List<Genre> genres;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;

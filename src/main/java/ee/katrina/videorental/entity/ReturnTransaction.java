@@ -1,8 +1,6 @@
 package ee.katrina.videorental.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -14,11 +12,11 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Builder
-public class RentalTransactionLine {
+public class ReturnTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,13 +32,10 @@ public class RentalTransactionLine {
     private LocalDateTime lastModifiedDate;
 
     @ManyToOne
+    private RentalTransactionLine rentalTransactionLine;
+
+    @ManyToOne
     private Movie movie;
 
-    @NotNull
-    @Min(value = 0)
-    private Integer daysRented;
-
-    private double price;
-    private boolean transactionFinished;
-
+    private double lateFee;
 }

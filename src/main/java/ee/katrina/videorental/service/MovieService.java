@@ -21,7 +21,5 @@ public interface MovieService {
 
     Optional<MovieDTO> updateMovieById(UUID movieId, MovieDTO movieDto);
 
-    void decreaseQuantity(RentalTransaction rentalTransaction);
-
     List<MovieDTO> getAllAvailableMovies();
 }

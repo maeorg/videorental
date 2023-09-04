@@ -8,5 +8,7 @@ import java.util.UUID;
 
 public interface MovieRepository extends JpaRepository<Movie, UUID> {
 
-    List<Movie> findAllByNotRentedOutQuantityIsGreaterThan(Integer n);
+    List<Movie> findAllByRentedOutIsFalse();
+
+    Movie findByTitle(String title);
 }

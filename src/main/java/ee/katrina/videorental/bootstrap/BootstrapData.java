@@ -139,9 +139,8 @@ public class BootstrapData implements CommandLineRunner {
                     .title("The Matrix")
                     .releaseYear(1999)
                     .lengthInMinutes(136)
-                    .movieType(MovieType.NEW)
-                    .totalQuantity(5)
-                    .notRentedOutQuantity(5)
+                    .movieType(MovieType.REGULAR)
+                    .rentedOut(false)
                     .genres(Arrays.asList(Genre.ACTION, Genre.SCIFI))
                     .directors(Arrays.asList(director1, director2))
                     .stars(Arrays.asList(actor1, actor2, actor3))
@@ -150,7 +149,21 @@ public class BootstrapData implements CommandLineRunner {
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
 
-            movieRepository.saveAll(Arrays.asList(movie1));
+            Movie movie2 = Movie.builder()
+                    .title("The Matrix Reloaded")
+                    .releaseYear(2003)
+                    .lengthInMinutes(138)
+                    .movieType(MovieType.NEW)
+                    .rentedOut(false)
+                    .genres(Arrays.asList(Genre.ACTION, Genre.SCIFI))
+                    .directors(Arrays.asList(director1, director2))
+                    .stars(Arrays.asList(actor1, actor2, actor3))
+                    .writers(Arrays.asList(writer1, writer2))
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            movieRepository.saveAll(Arrays.asList(movie1, movie2));
             System.out.println("Loaded movies data");
         }
     }
@@ -202,16 +215,19 @@ public class BootstrapData implements CommandLineRunner {
     private void loadRentalTransactionData() {
         if (rentalRepository.count() == 0) {
             Customer customer = customerRepository.findAll().get(0);
-            Movie movie1 = movieRepository.findAll().get(0);
+            Movie movie1 = movieRepository.findByTitle("The Matrix");
+            Movie movie2 = movieRepository.findByTitle("The Matrix Reloaded");
             RentalTransactionLine rentalTransactionLine1 = RentalTransactionLine.builder()
                     .movie(movie1)
-                    .quantity(1)
-                    .daysRented(3)
+                    .daysRented(5)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
                     .build();
             RentalTransactionLine rentalTransactionLine2 = RentalTransactionLine.builder()
-                    .movie(movie1)
-                    .quantity(2)
+                    .movie(movie2)
                     .daysRented(1)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
                     .build();
             RentalTransaction rentalTransaction = RentalTransaction.builder()
                     .customer(customer)

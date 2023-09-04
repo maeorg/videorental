@@ -37,10 +37,7 @@ public class Movie {
     private Integer lengthInMinutes;
     @NotNull
     private MovieType movieType;
-    @NotNull
-    private Integer totalQuantity;
-    @NotNull
-    private Integer notRentedOutQuantity;
+    private boolean rentedOut;
 
     private List<Genre> genres;
 

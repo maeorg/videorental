@@ -2,12 +2,16 @@ package ee.katrina.videorental.service;
 
 import ee.katrina.videorental.entity.RentalTransaction;
 import ee.katrina.videorental.entity.RentalTransactionLine;
+import ee.katrina.videorental.entity.ReturnTransaction;
 import ee.katrina.videorental.model.MovieType;
 import ee.katrina.videorental.repository.RentalRepository;
+import ee.katrina.videorental.repository.ReturnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,6 +21,9 @@ public class RentalServiceImpl implements RentalService {
 
     @Autowired
     RentalRepository rentalRepository;
+
+    @Autowired
+    ReturnRepository returnRepository;
 
     @Autowired
     MovieService movieService;
@@ -40,7 +47,6 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public RentalTransaction addRental(RentalTransaction rentalTransaction) {
         RentalTransaction pricedTransaction = calculateRentalPrice(rentalTransaction);
-        movieService.decreaseQuantity(rentalTransaction);
         return rentalRepository.save(pricedTransaction);
     }
 
@@ -63,43 +69,96 @@ public class RentalServiceImpl implements RentalService {
         return Optional.ofNullable(rentalRepository.save(rentalTransaction));
     }
 
-//    New releases – Price is PREMIUM_PRICE times number of days rented.
+    //    New releases – Price is PREMIUM_PRICE times number of days rented.
 //    Regular films – Price is BASIC_PRICE for the first 3 days and then BASIC_PRICE times the number of days over 3
 //    Old film - Price is BASIC_PRICE for the first 5 days and then BASIC_PRICE times the number of days over 5
     public RentalTransaction calculateRentalPrice(RentalTransaction rentalTransaction) {
         double totalSum = 0;
         for (RentalTransactionLine transactionLine : rentalTransaction.getRentalTransactionLines()) {
-            double price = 0;
-            MovieType type = transactionLine.getMovie().getMovieType();
-            Integer quantity = transactionLine.getQuantity();
-            Integer daysRented = transactionLine.getDaysRented();
-            switch (type) {
-                case NEW:
-                    price = PREMIUM_PRICE * daysRented;
-                    break;
-                case REGULAR:
-                    if (daysRented <= 3) {
-                        price = BASIC_PRICE;
-                    } else {
-                        price = BASIC_PRICE + ((daysRented-3) * BASIC_PRICE);
-                    }
-                    break;
-                case OLD:
-                    if (daysRented <= 5) {
-                        price = BASIC_PRICE;
-                    } else {
-                        price = BASIC_PRICE + ((daysRented-5) * BASIC_PRICE);
-                    }
-                    break;
-                default:
-                    throw new RuntimeException("Wrong movie type");
+            if (transactionLine.getMovie().isRentedOut()) {
+                throw new RuntimeException("Movie is already rented out");
+            } else {
+                transactionLine.getMovie().setRentedOut(true);
+                transactionLine.setTransactionFinished(false);
             }
-            price  *= quantity;
+            MovieType type = transactionLine.getMovie().getMovieType();
+            Integer daysRented = transactionLine.getDaysRented();
+            double price = calculatePriceForTransactionLine(type, daysRented);
             transactionLine.setPrice(price);
             totalSum += price;
         }
         rentalTransaction.setTotalSum(totalSum);
         return rentalTransaction;
+    }
+
+    private double calculatePriceForTransactionLine(MovieType type, Integer daysRented) {
+        double price = 0;
+        switch (type) {
+            case NEW:
+                price = PREMIUM_PRICE * daysRented;
+                break;
+            case REGULAR:
+                if (daysRented <= 3) {
+                    price = BASIC_PRICE;
+                } else {
+                    price = BASIC_PRICE + ((daysRented - 3) * BASIC_PRICE);
+                }
+                break;
+            case OLD:
+                if (daysRented <= 5) {
+                    price = BASIC_PRICE;
+                } else {
+                    price = BASIC_PRICE + ((daysRented - 5) * BASIC_PRICE);
+                }
+                break;
+            default:
+                throw new RuntimeException("Wrong movie type");
+        }
+        return price;
+    }
+
+    @Override
+    public RentalTransactionLine getRentalTransactionLineByMovieId(UUID movieId) {
+        for (RentalTransaction transaction : rentalRepository.findAll()) {
+            for (RentalTransactionLine transactionLine : transaction.getRentalTransactionLines()) {
+                if (!transactionLine.isTransactionFinished() && transactionLine.getMovie().getId().equals(movieId)) {
+                    transactionLine.getMovie().setRentedOut(false);
+                    transactionLine.setTransactionFinished(true);
+                    rentalRepository.save(transaction);
+                    return transactionLine;
+                }
+            }
+        }
+        throw new RuntimeException("Not finished rental transaction line for the movie not found");
+    }
+
+    public double returnMovieAndCalculateLateFees(UUID movieId) {
+        double lateFee = 0;
+        RentalTransactionLine transactionLine = getRentalTransactionLineByMovieId(movieId);
+        LocalDateTime dueBack = transactionLine.getCreatedDate().plusDays(transactionLine.getDaysRented());
+        if (LocalDateTime.now().isAfter(dueBack)) {
+            double originalPrice = transactionLine.getPrice();
+            MovieType type = transactionLine.getMovie().getMovieType();
+            Integer daysRented = (int) Duration.between(transactionLine.getCreatedDate(), LocalDateTime.now()).toDays() + 1;
+            double longerReturnPrice = calculatePriceForTransactionLine(type, daysRented);
+            lateFee = longerReturnPrice - originalPrice;
+        }
+        ReturnTransaction returnTransaction = new ReturnTransaction();
+        returnTransaction.setRentalTransactionLine(transactionLine);
+        returnTransaction.setMovie(transactionLine.getMovie());
+        returnTransaction.setLateFee(lateFee);
+        returnRepository.save(returnTransaction);
+        return lateFee;
+    }
+
+    @Override
+    public List<ReturnTransaction> getAllReturns() {
+        return returnRepository.findAll();
+    }
+
+    @Override
+    public Optional<ReturnTransaction> getReturnTransactionById(UUID returnId) {
+        return returnRepository.findById(returnId);
     }
 
 }

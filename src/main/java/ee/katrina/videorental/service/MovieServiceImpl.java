@@ -61,23 +61,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void decreaseQuantity(RentalTransaction rentalTransaction) {
-        for (RentalTransactionLine line : rentalTransaction.getRentalTransactionLines()) {
-            Optional<Movie> foundMovie = movieRepository.findById(line.getMovie().getId());
-            if (foundMovie.isEmpty()) {
-                throw new RuntimeException("Movie not found");
-            }
-            Integer notRentedOutQuantity = foundMovie.get().getNotRentedOutQuantity();
-            if (notRentedOutQuantity < line.getQuantity()) {
-                throw new RuntimeException("Not enough copies of movie to rent out");
-            }
-            foundMovie.get().setNotRentedOutQuantity(notRentedOutQuantity - line.getQuantity());
-        }
-    }
-
-    @Override
     public List<MovieDTO> getAllAvailableMovies() {
-        return movieRepository.findAllByNotRentedOutQuantityIsGreaterThan(0).stream()
+        return movieRepository.findAllByRentedOutIsFalse().stream()
                 .map(movieMapper::movieToMovieDto)
                 .collect(Collectors.toList());
     }
