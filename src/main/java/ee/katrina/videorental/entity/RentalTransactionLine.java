@@ -40,6 +40,7 @@ public class RentalTransactionLine {
     @Min(value = 0)
     private Integer daysRented;
 
+    @Min(value = 0)
     private double price;
     private boolean transactionFinished;
 

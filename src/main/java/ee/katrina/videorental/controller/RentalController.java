@@ -1,6 +1,7 @@
 package ee.katrina.videorental.controller;
 
 import ee.katrina.videorental.entity.RentalTransaction;
+import ee.katrina.videorental.entity.RentalTransactionLine;
 import ee.katrina.videorental.entity.ReturnTransaction;
 import ee.katrina.videorental.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,7 @@
 package ee.katrina.videorental.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -37,5 +38,6 @@ public class ReturnTransaction {
     @ManyToOne
     private Movie movie;
 
+    @Min(value = 0)
     private double lateFee;
 }

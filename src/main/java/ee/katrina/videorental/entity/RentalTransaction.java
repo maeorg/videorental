@@ -39,6 +39,7 @@ public class RentalTransaction {
     @OneToMany(cascade = {jakarta.persistence.CascadeType.ALL})
     private List<RentalTransactionLine> rentalTransactionLines;
 
+    @Min(value = 0)
     private double totalSum;
 
 }

@@ -52,7 +52,17 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public RentalTransaction addRental(RentalTransaction rentalTransaction) {
         RentalTransaction pricedTransaction = calculateRentalPrice(rentalTransaction);
-        return rentalRepository.save(pricedTransaction);
+        RentalTransaction savedRentalTransaction = rentalRepository.save(pricedTransaction);
+
+        // printout
+        for (RentalTransactionLine line : savedRentalTransaction.getRentalTransactionLines()) {
+            System.out.println(line.getMovie().getTitle() + " (" + line.getMovie().getMovieType() + ") " +
+                    line.getDaysRented() + " days " + (int)line.getPrice() + " EUR");
+        }
+        System.out.println("Total price: " + savedRentalTransaction.getTotalSum());
+        //
+
+        return savedRentalTransaction;
     }
 
     @Override
