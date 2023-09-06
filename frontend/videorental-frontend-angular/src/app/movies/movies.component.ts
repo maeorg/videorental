@@ -20,4 +20,18 @@ export class MoviesComponent {
     });
   }
 
+  allMovies() {
+    this.movieService.getMovies()
+    .subscribe((data: Movie[]) => {
+      this.movies = data;
+    });
+  }
+
+  onlyAvailable() {
+    this.movieService.getAllAvailableMovies()
+    .subscribe((data: Movie[]) => {
+      this.movies = data;
+    });
+  }
+
 }

@@ -16,4 +16,8 @@ export class MovieService {
     return this.httpClient.get<Movie[]>(this.url);
   }
 
+  getAllAvailableMovies() {
+    return this.httpClient.get<Movie[]>(this.url + "/available");
+  }
+
 }

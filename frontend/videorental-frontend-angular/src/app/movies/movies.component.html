@@ -1,3 +1,59 @@
-<div *ngFor="let movie of movies">
-    <div class="title">{{movie.title}}</div>
+<div class="m-2">
+    <b>Filters:</b><br>
+    <button (click)="onlyAvailable()" class="btn btn-success m-2 btn" mdbRipple>Show only available movies</button>
+    <button (click)="allMovies()" class="btn btn-info m-2 btn" mdbRipple>Show all movies</button>
 </div>
+<table class="table table-hover table-bordered align-middle ">
+    <thead class="table-primary">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th>Type</th>
+            <th>Release Year</th>
+            <th>Length (minutes)</th>
+            <th>Genres</th>
+            <th>Stars</th>
+            <th>Directors</th>
+            <th>Writers</th>
+            <th>Rented out</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let movie of movies">
+            <td>{{ movie.id }}</td>
+            <td>{{ movie.title }}</td>
+            <td>{{ movie.movieType }}</td>
+            <td>{{ movie.releaseYear }}</td>
+            <td>{{ movie.lengthInMinutes }}</td>
+            <td>
+                <div *ngFor="let genre of movie.genres">{{genre}}</div>
+            </td>
+            <td>
+                <div *ngFor="let actor of movie.stars">{{actor.firstName}} {{actor.lastName}}</div>
+            </td>
+            <td>
+                <div *ngFor="let director of movie.directors">{{director.firstName}} {{director.lastName}}</div>
+            </td>
+            <td>
+                <div *ngFor="let writer of movie.writers">{{writer.firstName}} {{writer.lastName}}</div>
+            </td>
+            <td>{{ movie.rentedOut }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- <div *ngFor="let movie of movies">
+    <br>Title:
+    <div class="title">{{movie.title}}</div>
+    <br>Type:
+    <div class="title">{{movie.movieType}}</div>
+    <br>Genres:
+    <div>{{movie.genres}}</div>
+    <br>Directors: 
+    <div *ngFor="let director of movie.directors">{{director.firstName}} {{director.lastName}}</div>
+    <br>Stars:
+    <div *ngFor="let actor of movie.stars">{{actor.firstName}} {{actor.lastName}}</div>
+    <br>Writers:
+    <div *ngFor="let writer of movie.writers">{{writer.firstName}} {{writer.lastName}}</div>
+    <br>Rented out: {{movie.rentedOut}}
+</div> -->

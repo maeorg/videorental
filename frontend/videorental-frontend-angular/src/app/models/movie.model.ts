@@ -1,14 +1,22 @@
+import { Actor } from "./actor.model";
+import { Director } from "./director.model";
+import { Genre } from "./genre.model";
+import { MovieType } from "./movietype.model";
+import { Writer } from "./writer.model";
+
 export class Movie {
     constructor(
         public title:string,
         public releaseYear:number,
         public lengthInMinutes:number,
-        // public movieType:Movietype,
+        public movieType:MovieType,
         public rentedOut:boolean,
-        // public genres:Genres,
+        public genres:Genre[],
         public createdDate:Date,
         public lastModifiedDate:Date,
-        // TODO directors, stars, writers
+        public directors:Director[],
+        public stars:Actor[],
+        public writers:Writer[],
         public id?:string
     ) {}
 }
