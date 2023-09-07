@@ -1,0 +1,24 @@
+<table class="table table-hover table-bordered align-middle ">
+    <thead class="table-primary">
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Bonus Points</th>
+            <th>E-mail</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let customer of customers">
+            <td>{{ customer.id }}</td>
+            <td>{{ customer.firstName }}</td>
+            <td>{{ customer.lastName }}</td>
+            <td>{{ customer.username }}</td>
+            <td>{{ customer.bonusPoints }}</td>
+            <td>{{ customer.contactData.email }}</td>
+            <td>{{ customer.contactData.phoneNumber }}</td>
+        </tr>
+    </tbody>
+</table>

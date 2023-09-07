@@ -22,12 +22,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { HomepageComponent } from './homepage/homepage.component';
 import { MoviesComponent } from './movies/movies.component';
+import { RentalsComponent } from './rentals/rentals.component';
+import { CustomersComponent } from './customers/customers.component';
+import { RenturnsComponent } from './renturns/renturns.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
-    MoviesComponent
+    MoviesComponent,
+    RentalsComponent,
+    CustomersComponent,
+    RenturnsComponent
   ],
   imports: [
     BrowserModule,

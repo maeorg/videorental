@@ -1,0 +1,40 @@
+<table class="table table-hover table-bordered align-middle ">
+    <thead class="table-primary">
+        <tr>
+            <th>Rental Transaction ID</th>
+            <th>Customer ID</th>
+            <th>Total Sum</th>
+            <th>Transaction Line ID</th>
+            <th>Movie ID</th>
+            <th>Movie Title</th>
+            <th>Days Rented</th>
+            <th>Price</th>
+            <th>Transaction Finished</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let transaction of rentalTransactions">
+            <td>{{ transaction.id }}</td>
+            <td>{{ transaction.customer.id }}</td>
+            <td>{{ transaction.totalSum | number : '1.2-2'}} €</td>
+            <td>
+                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.id}}</div>
+            </td>
+            <td>
+                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.movie.id}}</div>
+            </td>
+            <td>
+                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.movie.title}}</div>
+            </td>
+            <td>
+                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.daysRented}}</div>
+            </td>
+            <td>
+                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.price | number : '1.2-2'}} €</div>
+            </td>
+            <td>
+                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.transactionFinished}}</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
