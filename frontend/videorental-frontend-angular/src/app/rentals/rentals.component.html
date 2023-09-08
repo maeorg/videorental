@@ -1,5 +1,5 @@
 <form (ngSubmit)="handleSubmit(addRentalTransactionForm)" #addRentalTransactionForm="ngForm"
-    class="m-4 shadow-lg p-3 bg-white rounded" style="width: 500px">
+    class="m-4 shadow-lg p-3 bg-white rounded" style="width: 600px">
     <h5 class="text-center mb-3">Add Rental Transaction</h5>
 
     <mdb-form-control class="mb-4">
@@ -7,19 +7,25 @@
         <label mdbLabel class="form-label" for="customerId">Customer ID</label>
     </mdb-form-control>
 
-    <mdb-form-control class="mb-4">
-        <input mdbInput ngModel name="movieId" type="text" id="movieId" class="form-control" />
-        <label mdbLabel class="form-label" for="movieId">Movie ID</label>
-    </mdb-form-control>
-
-    <mdb-form-control class="mb-4">
-        <input mdbInput ngModel name="daysRented" type="text" id="daysRented" class="form-control" />
-        <label mdbLabel class="form-label" for="daysRented">Days Rented</label>
-    </mdb-form-control>
+    <form [formGroup]="movieIdForm" >
+    <div formArrayName="movieIds">
+        <button type="button" (click)="addMovie()" class="btn btn btn-outline-success mb-4">Add movie</button><br>
+        <div *ngFor="let quantity of movieIds().controls; let i=index" [formGroupName]="i">
+            <mdb-form-control class="mb-4">
+                <input mdbInput ngModel name="movieId" type="text" id="movieId" class="form-control" formControlName="movieId"/>
+                <label mdbLabel class="form-label" for="movieId">Movie ID</label>
+            </mdb-form-control>
+            <mdb-form-control class="mb-4">
+                <input mdbInput ngModel name="daysRented" type="text" id="daysRented" class="form-control" formControlName="daysRented" />
+                <label mdbLabel class="form-label" for="daysRented">Days Rented</label>
+            </mdb-form-control>
+            <button (click)="removeMovie(i)" class="btn btn-outline-info mb-3">Remove Movie</button>
+        </div>
+    </div>
+    </form>
 
     <button type="submit" class="btn btn-warning btn-block mb-4">Add Rental Transaction</button>
 </form>
-
 
 <div class="m-2">
     <b>Rental transactions</b><br>
