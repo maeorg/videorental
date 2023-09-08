@@ -1,5 +1,8 @@
 <div class="m-2">
-    <b>Filters:</b><br>
+    <b>Movies</b><br>
+</div>
+<div class="m-2">
+    Filters:<br>
     <button (click)="onlyAvailable()" class="btn btn-success m-2 btn" mdbRipple>Show only available movies</button>
     <button (click)="allMovies()" class="btn btn-info m-2 btn" mdbRipple>Show all movies</button>
 </div>
@@ -22,7 +25,7 @@
         <tr *ngFor="let movie of movies">
             <td>{{ movie.id }}</td>
             <td>{{ movie.title }}</td>
-            <td>{{ movie.movieType }}</td>
+            <td>{{ movie.movieType}}</td>
             <td>{{ movie.releaseYear }}</td>
             <td>{{ movie.lengthInMinutes }}</td>
             <td>

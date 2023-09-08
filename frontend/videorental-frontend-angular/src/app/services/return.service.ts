@@ -15,4 +15,8 @@ export class ReturnService {
   getAllReturnTransactions() {
     return this.httpClient.get<ReturnTransaction[]>(this.url);
   }
+
+  addReturn(returnTransaction: ReturnTransaction) {
+    return this.httpClient.post(this.url, returnTransaction);
+  }
 }

@@ -1,3 +1,18 @@
+<form (ngSubmit)="handleSubmit(addReturnTransactionForm)" #addReturnTransactionForm="ngForm"
+    class="m-4 shadow-lg p-3 bg-white rounded" style="width: 500px">
+    <h5 class="text-center mb-3">Add Return Transaction</h5>
+
+    <mdb-form-control class="mb-4">
+        <input mdbInput ngModel name="movieId" type="text" id="movieId" class="form-control" />
+        <label mdbLabel class="form-label" for="movieId">Movie ID</label>
+    </mdb-form-control>
+
+    <button type="submit" class="btn btn-warning btn-block mb-4">Add Return Transaction</button>
+</form>
+
+<div class="m-2">
+    <b>Return transactions</b><br>
+</div>
 <table class="table table-hover table-bordered align-middle ">
     <thead class="table-primary">
         <tr>
@@ -6,6 +21,7 @@
             <th>Movie Title</th>
             <th>Late Fee</th>
             <th>Transaction Line ID</th>
+            <th>Return Time</th>
         </tr>
     </thead>
     <tbody>
@@ -13,8 +29,9 @@
             <td>{{ return.id }}</td>
             <td>{{ return.movie.id }}</td>
             <td>{{ return.movie.title }}</td>
-            <td>{{ return.lateFee }}</td>
+            <td>{{ return.lateFee | number : '1.2-2'}} €</td>
             <td>{{ return.rentalTransactionLine.id }}</td>
+            <td>{{ return.createdDate }}</td>
         </tr>
     </tbody>
 </table>

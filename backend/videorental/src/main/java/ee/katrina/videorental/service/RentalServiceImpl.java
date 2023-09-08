@@ -1,11 +1,9 @@
 package ee.katrina.videorental.service;
 
-import ee.katrina.videorental.entity.Customer;
-import ee.katrina.videorental.entity.RentalTransaction;
-import ee.katrina.videorental.entity.RentalTransactionLine;
-import ee.katrina.videorental.entity.ReturnTransaction;
+import ee.katrina.videorental.entity.*;
 import ee.katrina.videorental.model.MovieType;
 import ee.katrina.videorental.repository.CustomerRepository;
+import ee.katrina.videorental.repository.MovieRepository;
 import ee.katrina.videorental.repository.RentalRepository;
 import ee.katrina.videorental.repository.ReturnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,10 +27,13 @@ public class RentalServiceImpl implements RentalService {
     ReturnRepository returnRepository;
 
     @Autowired
-    MovieService movieService;
+    MovieRepository movieRepository;
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    MovieService movieService;
 
     @Value("${movie.price.premium}")
     Integer PREMIUM_PRICE;
@@ -95,7 +97,9 @@ public class RentalServiceImpl implements RentalService {
             if (transactionLine.getMovie().isRentedOut()) {
                 throw new RuntimeException("Movie is already rented out");
             } else {
-                transactionLine.getMovie().setRentedOut(true);
+                Movie movie = transactionLine.getMovie();
+                movie.setRentedOut(true);
+                movieRepository.save(movie);
                 transactionLine.setTransactionFinished(false);
             }
             MovieType type = transactionLine.getMovie().getMovieType();

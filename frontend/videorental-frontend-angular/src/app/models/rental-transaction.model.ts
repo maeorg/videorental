@@ -3,11 +3,11 @@ import { RentalTransactionLine } from "./rental-transaction-line.model";
 
 export class RentalTransaction {
     constructor(
+        public customer:Customer,
+        public rentalTransactionLines:RentalTransactionLine[],
         public totalSum:number,
         public createdDate:Date,
-        public customer:Customer,
         public lastModifiedDate:Date,
-        public rentalTransactionLines:RentalTransactionLine[],
         public id?:string
     ) {}
 }

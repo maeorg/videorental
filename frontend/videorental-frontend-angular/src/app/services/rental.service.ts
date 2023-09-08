@@ -15,4 +15,8 @@ export class RentalService {
   getAllRentalTransactions() {
     return this.httpClient.get<RentalTransaction[]>(this.url);
   }
+
+  addRental(rentalTransaction: RentalTransaction) {
+    return this.httpClient.post(this.url, rentalTransaction);
+  }
 }

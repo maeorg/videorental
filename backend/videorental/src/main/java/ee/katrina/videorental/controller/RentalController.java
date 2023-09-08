@@ -3,6 +3,7 @@ package ee.katrina.videorental.controller;
 import ee.katrina.videorental.entity.RentalTransaction;
 import ee.katrina.videorental.entity.RentalTransactionLine;
 import ee.katrina.videorental.entity.ReturnTransaction;
+import ee.katrina.videorental.repository.ReturnRepository;
 import ee.katrina.videorental.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +28,9 @@ public class RentalController {
 
     @Autowired
     RentalService rentalService;
+
+    @Autowired
+    ReturnRepository returnRepository;
 
     @GetMapping(value = RENTAL_TRANSACTION)
     public ResponseEntity getAllRentals() {
@@ -64,6 +68,17 @@ public class RentalController {
             throw new RuntimeException("Rental not found");
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    @PostMapping(value = RETURN_TRANSACTION)
+    public ResponseEntity addReturn(@Validated @RequestBody ReturnTransaction returnTransaction) {
+        rentalService.returnMovieAndCalculateLateFees(returnTransaction.getMovie().getId());
+//        ReturnTransaction savedReturnTransaction = returnRepository.save(returnTransaction);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Location", RETURN_TRANSACTION + "/" +
+//                savedReturnTransaction.getId().toString());
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PostMapping(value = RETURN_MOVIE_ID)

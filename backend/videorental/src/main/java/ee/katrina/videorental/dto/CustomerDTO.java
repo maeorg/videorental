@@ -17,7 +17,6 @@ public class CustomerDTO {
     private String firstName;
     private String lastName;
     private String username;
-    private String password;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
     private Long bonusPoints;

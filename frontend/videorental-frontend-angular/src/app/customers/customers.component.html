@@ -1,3 +1,6 @@
+<div class="m-2">
+    <b>Customers</b><br>
+</div>
 <table class="table table-hover table-bordered align-middle ">
     <thead class="table-primary">
         <tr>
@@ -8,6 +11,8 @@
             <th>Bonus Points</th>
             <th>E-mail</th>
             <th>Phone Number</th>
+            <th>Created Time</th>
+            <th>Last Modified Time</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +24,8 @@
             <td>{{ customer.bonusPoints }}</td>
             <td>{{ customer.contactData.email }}</td>
             <td>{{ customer.contactData.phoneNumber }}</td>
+            <td>{{ customer.createdDate }}</td>
+            <td>{{ customer.lastModifiedDate }}</td>
         </tr>
     </tbody>
 </table>

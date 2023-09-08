@@ -20,4 +20,8 @@ export class MovieService {
     return this.httpClient.get<Movie[]>(this.url + "/available");
   }
 
+  getMovieById(movieId: string) {
+    return this.httpClient.get<Movie>(this.url + "/" + movieId);
+  }
+
 }
