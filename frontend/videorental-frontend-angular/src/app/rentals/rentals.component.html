@@ -24,7 +24,7 @@
 <div class="m-2">
     <b>Rental transactions</b><br>
 </div>
-<table class="table table-hover table-bordered align-middle ">
+<table class="table table-hover table-bordered align-middle">
     <thead class="table-primary">
         <tr>
             <th>Rental Transaction ID</th>
@@ -46,22 +46,22 @@
             <td>{{ transaction.customer.id }}</td>
             <td>{{ transaction.totalSum | number : '1.2-2'}} €</td>
             <td>
-                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.id}}</div>
+                <p *ngFor="let line of transaction.rentalTransactionLines">{{line.id}}</p>
             </td>
             <td>
-                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.movie.id}}</div>
+                <p *ngFor="let line of transaction.rentalTransactionLines">{{line.movie.id}}</p>
             </td>
             <td>
-                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.movie.title}}</div>
+                <p *ngFor="let line of transaction.rentalTransactionLines">{{line.movie.title}}</p>
             </td>
             <td>
-                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.daysRented}}</div>
+                <p *ngFor="let line of transaction.rentalTransactionLines">{{line.daysRented}}</p>
             </td>
             <td>
-                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.price | number : '1.2-2'}} €</div>
+                <p *ngFor="let line of transaction.rentalTransactionLines">{{line.price | number : '1.2-2'}} €</p>
             </td>
             <td>
-                <div *ngFor="let line of transaction.rentalTransactionLines">{{line.transactionFinished}}</div>
+                <p *ngFor="let line of transaction.rentalTransactionLines">{{line.transactionFinished}}</p>
             </td>
         </tr>
     </tbody>

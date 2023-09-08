@@ -23,51 +23,55 @@ export class RenturnsComponent {
 
   constructor(private returnService: ReturnService,
     private movieService: MovieService,
-    private rentalService: RentalService) {}
+    private rentalService: RentalService) { }
 
   ngOnInit() {
     this.returnService.getAllReturnTransactions()
-    .subscribe((data: ReturnTransaction[]) => {
-      this.returnTransactions = data;
-    });
+      .subscribe((data: ReturnTransaction[]) => {
+        this.returnTransactions = data;
+      });
 
     this.movieService.getMovies()
-    .subscribe((data: Movie[]) => {
-      this.movies = data;
-    });
+      .subscribe((data: Movie[]) => {
+        this.movies = data;
+      });
 
     this.rentalService.getAllRentalTransactions()
-    .subscribe((data: RentalTransaction[]) => {
-      this.rentalTransactions = data;
+      .subscribe((data: RentalTransaction[]) => {
+        this.rentalTransactions = data;
+      });
+
+  }
+
+  handleSubmit(addReturnTransactionForm: NgForm) {
+    const formValue = addReturnTransactionForm.value;
+
+    this.movies.forEach(element => {
+      if (element.id == formValue.movieId) {
+        this.movie = element;
+      }
     });
 
-  }
-
-    handleSubmit(addReturnTransactionForm: NgForm) {
-      const formValue = addReturnTransactionForm.value;
-  
-      this.movies.forEach(element => {
-        if (element.id == formValue.movieId) {
-          this.movie = element;
+    this.rentalTransactions.forEach(transaction => {
+      transaction.rentalTransactionLines.forEach(transactionLine => {
+        if (transactionLine.movie.id == formValue.movieId) {
+          this.rentalTransactionLine = transactionLine;
         }
       });
+    });
 
-      this.rentalTransactions.forEach(transaction => {
-        transaction.rentalTransactionLines.forEach(transactionLine => {
-          if (transactionLine.movie.id == formValue.movieId) {
-            this.rentalTransactionLine = transactionLine;
-          }
-        });
+    const returnTransaction = new ReturnTransaction(
+      new Date(),
+      new Date(),
+      this.rentalTransactionLine,
+      this.movie,
+      0
+    );
+
+    this.returnService.addReturn(returnTransaction).subscribe(data => {
+      this.returnService.getAllReturnTransactions().subscribe(result => {
+        this.returnTransactions = result;
       });
-  
-      const returnTransaction = new ReturnTransaction(
-        new Date(),
-        new Date(),
-        this.rentalTransactionLine,
-        this.movie,
-        0
-      );
-  
-    this.returnService.addReturn(returnTransaction).subscribe();
-    }
+    });
   }
+}

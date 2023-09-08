@@ -11,4 +11,6 @@ public interface MovieRepository extends JpaRepository<Movie, UUID> {
     List<Movie> findAllByRentedOutIsFalse();
 
     Movie findByTitle(String title);
+
+    Movie findAllById(UUID movieId);
 }

@@ -97,9 +97,9 @@ public class RentalServiceImpl implements RentalService {
             if (transactionLine.getMovie().isRentedOut()) {
                 throw new RuntimeException("Movie is already rented out");
             } else {
-                Movie movie = transactionLine.getMovie();
+                Movie movie = movieRepository.findAllById(transactionLine.getMovie().getId());
                 movie.setRentedOut(true);
-                movieRepository.save(movie);
+//                movieRepository.save(movie);
                 transactionLine.setTransactionFinished(false);
             }
             MovieType type = transactionLine.getMovie().getMovieType();
@@ -169,6 +169,9 @@ public class RentalServiceImpl implements RentalService {
     }
 
     public double returnMovieAndCalculateLateFees(UUID movieId) {
+        if (!movieRepository.findById(movieId).get().isRentedOut()) {
+            throw new RuntimeException("Movie is already returned");
+        }
         double lateFee = 0;
         RentalTransactionLine transactionLine = getRentalTransactionLineByMovieId(movieId);
         LocalDateTime dueBack = transactionLine.getCreatedDate().plusDays(transactionLine.getDaysRented());

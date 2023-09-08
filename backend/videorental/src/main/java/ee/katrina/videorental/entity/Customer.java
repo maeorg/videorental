@@ -35,8 +35,6 @@ public class Customer {
     @NotNull
     @NotBlank
     private String username;
-    @NotNull
-    @NotBlank
     private String password;
 
     @CreationTimestamp

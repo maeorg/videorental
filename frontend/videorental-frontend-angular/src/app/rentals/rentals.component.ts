@@ -23,23 +23,23 @@ export class RentalsComponent {
 
   constructor(private rentalService: RentalService,
     private customerService: CustomerService,
-    private movieService: MovieService) {}
+    private movieService: MovieService) { }
 
   ngOnInit() {
     this.rentalService.getAllRentalTransactions()
-    .subscribe((data: RentalTransaction[]) => {
-      this.rentalTransactions = data;
-    });
+      .subscribe((data: RentalTransaction[]) => {
+        this.rentalTransactions = data;
+      });
 
     this.customerService.getAllCustomers()
-    .subscribe((data: Customer[]) => {
-      this.customers = data;
-    });
+      .subscribe((data: Customer[]) => {
+        this.customers = data;
+      });
 
     this.movieService.getMovies()
-    .subscribe((data: Movie[]) => {
-      this.movies = data;
-    });
+      .subscribe((data: Movie[]) => {
+        this.movies = data;
+      });
 
   }
 
@@ -76,7 +76,11 @@ export class RentalsComponent {
       new Date()
     );
 
-  this.rentalService.addRental(newRentalTransaction).subscribe();
+    this.rentalService.addRental(newRentalTransaction).subscribe(data => {
+      this.rentalService.getAllRentalTransactions().subscribe(result => {
+        this.rentalTransactions = result;
+      })
+    });
   }
 
 }
