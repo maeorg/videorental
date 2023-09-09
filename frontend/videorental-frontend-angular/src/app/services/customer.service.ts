@@ -19,4 +19,8 @@ export class CustomerService {
   getCustomerById(customerId: string) {
     return this.httpClient.get<Customer>(this.url + "/" + customerId);
   }
+
+  addCustomer(customer: Customer) {
+    return this.httpClient.post(this.url, customer);
+  }
 }

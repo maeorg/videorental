@@ -65,7 +65,23 @@ public class BootstrapData implements CommandLineRunner {
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
 
-            actorRepository.saveAll(Arrays.asList(actor1, actor2, actor3));
+            Actor actor4 = Actor.builder()
+                    .firstName("Margot")
+                    .lastName("Robbie")
+                    .birthYear(1990)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            Actor actor5 = Actor.builder()
+                    .firstName("Ryan")
+                    .lastName("Gosling")
+                    .birthYear(1980)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            actorRepository.saveAll(Arrays.asList(actor1, actor2, actor3, actor4, actor5));
             System.out.println("Loaded actors data");
         }
     }
@@ -88,7 +104,15 @@ public class BootstrapData implements CommandLineRunner {
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
 
-            directorRepository.saveAll(Arrays.asList(director1, director2));
+            Director director3 = Director.builder()
+                    .firstName("Greta")
+                    .lastName("Gerwig")
+                    .birthYear(1983)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            directorRepository.saveAll(Arrays.asList(director1, director2, director3));
             System.out.println("Loaded directors data");
         }
     }
@@ -111,7 +135,23 @@ public class BootstrapData implements CommandLineRunner {
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
 
-            writerRepository.saveAll(Arrays.asList(writer1, writer2));
+            Writer writer3 = Writer.builder()
+                    .firstName("Greta")
+                    .lastName("Gerwig")
+                    .birthYear(1983)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            Writer writer4 = Writer.builder()
+                    .firstName("Noah")
+                    .lastName("Baumbach")
+                    .birthYear(1969)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            writerRepository.saveAll(Arrays.asList(writer1, writer2, writer3, writer4));
             System.out.println("Loaded writers data");
         }
     }
@@ -139,7 +179,7 @@ public class BootstrapData implements CommandLineRunner {
                     .title("The Matrix")
                     .releaseYear(1999)
                     .lengthInMinutes(136)
-                    .movieType(MovieType.REGULAR)
+                    .movieType(MovieType.OLD)
                     .rentedOut(false)
                     .genres(Arrays.asList(Genre.ACTION, Genre.SCIFI))
                     .directors(Arrays.asList(director1, director2))
@@ -153,7 +193,7 @@ public class BootstrapData implements CommandLineRunner {
                     .title("The Matrix Reloaded")
                     .releaseYear(2003)
                     .lengthInMinutes(138)
-                    .movieType(MovieType.NEW)
+                    .movieType(MovieType.REGULAR)
                     .rentedOut(false)
                     .genres(Arrays.asList(Genre.ACTION, Genre.SCIFI))
                     .directors(Arrays.asList(director1, director2))
@@ -163,7 +203,34 @@ public class BootstrapData implements CommandLineRunner {
                     .lastModifiedDate(LocalDateTime.now())
                     .build();
 
-            movieRepository.saveAll(Arrays.asList(movie1, movie2));
+            Director director3 = directorRepository.findDirectorByFirstNameAndLastNameAndBirthYear(
+                    "Greta", "Gerwig", 1983);
+
+            Writer writer3 = writerRepository.findWriterByFirstNameAndLastNameAndBirthYear(
+                    "Greta", "Gerwig", 1983);
+            Writer writer4 = writerRepository.findWriterByFirstNameAndLastNameAndBirthYear(
+                    "Noah", "Baumbach", 1969);
+
+            Actor actor4 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
+                    "Margot", "Robbie", 1990);
+            Actor actor5 = actorRepository.findActorByFirstNameAndLastNameAndBirthYear(
+                    "Ryan", "Gosling", 1980);
+
+            Movie movie3 = Movie.builder()
+                    .title("Barbie")
+                    .releaseYear(2023)
+                    .lengthInMinutes(114)
+                    .movieType(MovieType.NEW)
+                    .rentedOut(false)
+                    .genres(Arrays.asList(Genre.ADVENTURE, Genre.COMEDY, Genre.FANTASY))
+                    .directors(Arrays.asList(director3))
+                    .stars(Arrays.asList(actor4, actor5))
+                    .writers(Arrays.asList(writer3, writer4))
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            movieRepository.saveAll(Arrays.asList(movie1, movie2, movie3));
             System.out.println("Loaded movies data");
         }
     }

@@ -1,3 +1,33 @@
+<form (ngSubmit)="handleSubmit(addCustomer)" #addCustomer="ngForm"
+    class="m-4 shadow-lg p-3 bg-white rounded" style="width: 600px">
+    <h5 class="text-center mb-3">Add Customer</h5>
+    <mdb-form-control class="mb-4">
+        <input mdbInput ngModel name="firstName" type="text" id="firstName" class="form-control" />
+        <label mdbLabel class="form-label" for="firstName">First Name</label>
+    </mdb-form-control>
+    <mdb-form-control class="mb-4">
+        <input mdbInput ngModel name="lastName" type="text" id="lastName" class="form-control" />
+        <label mdbLabel class="form-label" for="lastName">Last Name</label>
+    </mdb-form-control>
+    <mdb-form-control class="mb-4">
+        <input mdbInput ngModel name="email" type="text" id="email" class="form-control" />
+        <label mdbLabel class="form-label" for="email">E-mail</label>
+    </mdb-form-control>
+    <mdb-form-control class="mb-4">
+        <input mdbInput ngModel name="phoneNumber" type="text" id="phoneNumber" class="form-control" />
+        <label mdbLabel class="form-label" for="phoneNumber">Phone Number</label>
+    </mdb-form-control>
+    <mdb-form-control class="mb-4">
+        <input mdbInput ngModel name="username" type="text" id="username" class="form-control" />
+        <label mdbLabel class="form-label" for="username">Username</label>
+    </mdb-form-control>
+    <mdb-form-control class="mb-4">
+        <input mdbInput ngModel name="bonusPoints" type="text" id="bonusPoints" class="form-control" />
+        <label mdbLabel class="form-label" for="bonusPoints">Bonus Points</label>
+    </mdb-form-control>
+    <button type="submit" class="btn btn-warning btn-block mb-4">Add Customer</button>
+</form>
+
 <div class="m-2">
     <b>Customers</b><br>
 </div>
