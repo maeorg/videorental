@@ -11,27 +11,27 @@ export class MoviesComponent {
 
   movies: Movie[] = [];
 
-  constructor(private movieService: MovieService) {}
+  constructor(private movieService: MovieService) { }
 
   ngOnInit() {
     this.movieService.getMovies()
-    .subscribe((data: Movie[]) => {
-      this.movies = data;
-    });
+      .subscribe((data: Movie[]) => {
+        this.movies = data;
+      });
   }
 
   allMovies() {
     this.movieService.getMovies()
-    .subscribe((data: Movie[]) => {
-      this.movies = data;
-    });
+      .subscribe((data: Movie[]) => {
+        this.movies = data;
+      });
   }
 
   onlyAvailable() {
     this.movieService.getAllAvailableMovies()
-    .subscribe((data: Movie[]) => {
-      this.movies = data;
-    });
+      .subscribe((data: Movie[]) => {
+        this.movies = data;
+      });
   }
 
 }

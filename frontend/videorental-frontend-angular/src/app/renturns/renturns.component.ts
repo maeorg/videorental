@@ -40,7 +40,6 @@ export class RenturnsComponent {
       .subscribe((data: RentalTransaction[]) => {
         this.rentalTransactions = data;
       });
-
   }
 
   handleSubmit(addReturnTransactionForm: NgForm) {
@@ -68,10 +67,13 @@ export class RenturnsComponent {
       0
     );
 
+
+
     this.returnService.addReturn(returnTransaction).subscribe(data => {
       this.returnService.getAllReturnTransactions().subscribe(result => {
         this.returnTransactions = result;
       });
     });
+    addReturnTransactionForm.resetForm();
   }
 }

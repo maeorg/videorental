@@ -45,6 +45,6 @@ export class CustomersComponent {
         this.customers = result;
       });
     });
+    addCustomer.resetForm();
   }
-
 }

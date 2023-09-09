@@ -72,7 +72,6 @@ export class RentalsComponent {
   }
 
   handleSubmit(addRentalTransactionForm: NgForm) {
-
     let rentalTransactionLines: RentalTransactionLine[] = [];
     const moviesForm = this.movieIdForm.value;
     moviesForm.movieIds.forEach((elem: any) => {
@@ -112,6 +111,8 @@ export class RentalsComponent {
         this.rentalTransactions = result;
       })
     });
+    addRentalTransactionForm.resetForm();
+    this.movieIdForm.reset();
   }
 
 }
