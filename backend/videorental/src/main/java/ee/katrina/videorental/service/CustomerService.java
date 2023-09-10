@@ -13,7 +13,7 @@ public interface CustomerService {
 
     Optional<CustomerDTO> getCustomerById(UUID customerId);
 
-    CustomerDTO addCustomer(CustomerDTO customerDTO);
+    CustomerDTO addCustomer(Customer customer);
 
     boolean deleteCustomerById(UUID customerId);
 

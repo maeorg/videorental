@@ -26,6 +26,8 @@ import { MoviesComponent } from './movies/movies.component';
 import { RentalsComponent } from './rentals/rentals.component';
 import { CustomersComponent } from './customers/customers.component';
 import { RenturnsComponent } from './renturns/renturns.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { RenturnsComponent } from './renturns/renturns.component';
     MoviesComponent,
     RentalsComponent,
     CustomersComponent,
-    RenturnsComponent
+    RenturnsComponent,
+    SignupComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

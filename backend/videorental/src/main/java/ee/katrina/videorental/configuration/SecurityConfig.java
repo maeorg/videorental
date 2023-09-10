@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher("/login")).permitAll()
                         .requestMatchers(antMatcher("/signup")).permitAll()
                         .requestMatchers(antMatcher("/api/v1/movie")).permitAll()
+                        .requestMatchers(antMatcher("/api/v1/movie/available")).permitAll()
                         .requestMatchers(antMatcher("/api/v1/rental")).hasAuthority("admin")
                         .requestMatchers(antMatcher("/api/v1/return")).hasAuthority("admin")
                         .requestMatchers(antMatcher("/api/v1/customer")).hasAuthority("admin")

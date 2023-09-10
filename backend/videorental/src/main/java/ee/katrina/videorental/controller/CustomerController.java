@@ -1,6 +1,7 @@
 package ee.katrina.videorental.controller;
 
 import ee.katrina.videorental.dto.CustomerDTO;
+import ee.katrina.videorental.entity.Customer;
 import ee.katrina.videorental.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -37,8 +38,8 @@ public class CustomerController {
 
     // add customer
     @PostMapping(value = CUSTOMER_PATH)
-    public ResponseEntity addCustomer(@Validated @RequestBody CustomerDTO customerDTO) {
-        CustomerDTO savedCustomerDTO = customerService.addCustomer(customerDTO);
+    public ResponseEntity addCustomer(@Validated @RequestBody Customer customer) {
+        CustomerDTO savedCustomerDTO = customerService.addCustomer(customer);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", CUSTOMER_PATH + "/" + savedCustomerDTO.getId().toString());
         return new ResponseEntity(headers, HttpStatus.CREATED);

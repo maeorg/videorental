@@ -40,9 +40,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO addCustomer(CustomerDTO customerDTO) {
+    public CustomerDTO addCustomer(Customer customer) {
+        customer.setPassword(encoder.encode(customer.getPassword()));
         return customerMapper.customerToCustomerDto(customerRepository
-                .save(customerMapper.customerDtoToCustomer(customerDTO)));
+                .save(customer));
     }
 
     @Override

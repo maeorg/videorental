@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +10,12 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 })
 export class AppComponent {
   title = 'Videorental';
+
+  constructor(private authService: AuthService,
+    private router: Router) {}
+
+  onLogout() {
+    this.authService.logout();
+    this.router.navigateByUrl("/login");
+  }
 }

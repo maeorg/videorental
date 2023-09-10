@@ -5,6 +5,8 @@ import { MoviesComponent } from './movies/movies.component';
 import { RentalsComponent } from './rentals/rentals.component';
 import { CustomersComponent } from './customers/customers.component';
 import { RenturnsComponent } from './renturns/renturns.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 const routes: Routes = [
   { path: "homepage", redirectTo: "/", pathMatch: "full" },
@@ -13,6 +15,8 @@ const routes: Routes = [
   { path: "rentals", component: RentalsComponent },
   { path: "returns", component: RenturnsComponent },
   { path: "customers", component: CustomersComponent },
+  { path: "login", component: LoginComponent },
+  { path: "signup", component: SignupComponent},
 ];
 
 @NgModule({

@@ -29,6 +29,7 @@ export class CustomersComponent {
       formValue.firstName,
       formValue.lastName,
       formValue.username,
+      formValue.password,
       formValue.bonusPoints,
       new Date(),
       new Date(),

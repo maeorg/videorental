@@ -35,10 +35,7 @@ public class AuthController {
         if (customer == null) {
             throw new RuntimeException("Wrong username or password");
         }
-        System.out.println(loginData.getPassword());
-        System.out.println(customer.getPassword());
         if (!encoder.matches(loginData.getPassword(), customer.getPassword())) {
-            System.out.println("EXCEPTION THROWING");
             throw new RuntimeException("Wrong username or password");
         }
         return new ResponseEntity<>(tokenGenerator.getToken(customer), HttpStatus.OK);
