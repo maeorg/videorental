@@ -4,10 +4,13 @@ import ee.katrina.videorental.entity.*;
 import ee.katrina.videorental.model.Genre;
 import ee.katrina.videorental.model.MovieType;
 import ee.katrina.videorental.repository.*;
+import ee.katrina.videorental.security.TokenGenerator;
+import ee.katrina.videorental.service.CustomerService;
 import ee.katrina.videorental.service.MovieService;
 import ee.katrina.videorental.service.RentalService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +28,11 @@ public class BootstrapData implements CommandLineRunner {
     private final MovieRepository movieRepository;
     private final WriterRepository writerRepository;
     private final RentalRepository rentalRepository;
-    private final MovieService movieService;
+    private final CustomerService customerService;
     private final RentalService rentalService;
+
+    @Autowired
+    TokenGenerator tokenGenerator;
 
     @Transactional
     @Override
@@ -263,6 +269,7 @@ public class BootstrapData implements CommandLineRunner {
                     .bonusPoints(55L)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
+                    .admin(false)
                     .build();
 
             Customer customer2 = Customer.builder()
@@ -274,9 +281,11 @@ public class BootstrapData implements CommandLineRunner {
                     .bonusPoints(0L)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
+                    .admin(true)
                     .build();
 
-            customerRepository.saveAll(Arrays.asList(customer1, customer2));
+            customerService.newSignup(customer1);
+            customerService.newSignup(customer2);
             System.out.println("Loaded customers data");
         }
     }

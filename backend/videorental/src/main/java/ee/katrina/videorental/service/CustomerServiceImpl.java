@@ -5,6 +5,7 @@ import ee.katrina.videorental.entity.Customer;
 import ee.katrina.videorental.mappers.CustomerMapper;
 import ee.katrina.videorental.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     CustomerMapper customerMapper;
+
+    @Autowired
+    BCryptPasswordEncoder encoder;
 
     @Override
     public List<CustomerDTO> listAllCustomers() {
@@ -59,5 +63,11 @@ public class CustomerServiceImpl implements CustomerService {
         customerDTO.setId(foundCustomer.get().getId());
         return Optional.ofNullable(customerMapper.customerToCustomerDto(customerRepository.save(
                 customerMapper.customerDtoToCustomer(customerDTO))));
+    }
+
+    @Override
+    public Customer newSignup(Customer customer) {
+        customer.setPassword(encoder.encode(customer.getPassword()));
+        return customerRepository.save(customer);
     }
 }

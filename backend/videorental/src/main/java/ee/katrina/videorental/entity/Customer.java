@@ -19,7 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Customer {
+public class Customer  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -49,5 +49,6 @@ public class Customer {
 
     @Min(value = 0)
     private Long bonusPoints;
+    private boolean admin;
 
 }

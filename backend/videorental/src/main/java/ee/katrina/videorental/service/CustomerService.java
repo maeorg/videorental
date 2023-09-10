@@ -1,6 +1,7 @@
 package ee.katrina.videorental.service;
 
 import ee.katrina.videorental.dto.CustomerDTO;
+import ee.katrina.videorental.entity.Customer;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,4 +18,6 @@ public interface CustomerService {
     boolean deleteCustomerById(UUID customerId);
 
     Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customerDTO);
+
+    Customer newSignup(Customer customer);
 }
