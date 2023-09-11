@@ -3,9 +3,11 @@ package ee.katrina.videorental.bootstrap;
 import ee.katrina.videorental.entity.*;
 import ee.katrina.videorental.model.Genre;
 import ee.katrina.videorental.model.MovieType;
+import ee.katrina.videorental.model.Role;
 import ee.katrina.videorental.repository.*;
 import ee.katrina.videorental.security.TokenGenerator;
 import ee.katrina.videorental.service.CustomerService;
+import ee.katrina.videorental.service.EmployeeService;
 import ee.katrina.videorental.service.MovieService;
 import ee.katrina.videorental.service.RentalService;
 import jakarta.transaction.Transactional;
@@ -28,6 +30,8 @@ public class BootstrapData implements CommandLineRunner {
     private final MovieRepository movieRepository;
     private final WriterRepository writerRepository;
     private final RentalRepository rentalRepository;
+    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
     private final CustomerService customerService;
     private final RentalService rentalService;
 
@@ -42,6 +46,7 @@ public class BootstrapData implements CommandLineRunner {
         loadWriterData();
         loadMovieData();
         loadCustomerData();
+        loadEmployeeData();
         loadRentalTransactionData();
     }
 
@@ -269,7 +274,6 @@ public class BootstrapData implements CommandLineRunner {
                     .bonusPoints(55L)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
-                    .admin(false)
                     .build();
 
             Customer customer2 = Customer.builder()
@@ -281,12 +285,59 @@ public class BootstrapData implements CommandLineRunner {
                     .bonusPoints(0L)
                     .createdDate(LocalDateTime.now())
                     .lastModifiedDate(LocalDateTime.now())
-                    .admin(true)
                     .build();
 
-            customerService.newSignup(customer1);
-            customerService.newSignup(customer2);
+            customerService.addCustomer(customer1);
+            customerService.addCustomer(customer2);
             System.out.println("Loaded customers data");
+        }
+    }
+
+
+    private void loadEmployeeData() {
+        if (employeeRepository.count() == 0) {
+            ContactData contactData1 = ContactData.builder()
+                    .email("admin@admin.ee")
+                    .phoneNumber("63473473")
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            ContactData contactData2 = ContactData.builder()
+                    .email("employee1@employee1.ee")
+                    .phoneNumber("37537357")
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            ContactData savedContactData1 = contactDataRepository.save(contactData1);
+            ContactData savedContactData2 = contactDataRepository.save(contactData2);
+
+            Employee admin = Employee.builder()
+                    .firstName("Admin")
+                    .lastName("Admin")
+                    .username("admin")
+                    .password("admin")
+                    .contactData(savedContactData1)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .role(Role.ADMIN)
+                    .build();
+
+            Employee employee1 = Employee.builder()
+                    .firstName("Employee")
+                    .lastName("One")
+                    .username("e1")
+                    .password("e1")
+                    .contactData(savedContactData2)
+                    .role(Role.EMPLOYEE)
+                    .createdDate(LocalDateTime.now())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            employeeService.addEmployee(admin);
+            employeeService.addEmployee(employee1);
+            System.out.println("Loaded employee data");
         }
     }
 

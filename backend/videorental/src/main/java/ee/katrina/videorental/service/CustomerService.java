@@ -19,5 +19,5 @@ public interface CustomerService {
 
     Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customerDTO);
 
-    Customer newSignup(Customer customer);
+//    Customer newSignup(Customer customer);
 }

@@ -3,7 +3,9 @@ package ee.katrina.videorental.controller;
 import ee.katrina.videorental.dto.security.AuthToken;
 import ee.katrina.videorental.dto.security.LoginData;
 import ee.katrina.videorental.entity.Customer;
+import ee.katrina.videorental.entity.Employee;
 import ee.katrina.videorental.repository.CustomerRepository;
+import ee.katrina.videorental.repository.EmployeeRepository;
 import ee.katrina.videorental.security.TokenGenerator;
 import ee.katrina.videorental.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,30 +23,40 @@ public class AuthController {
     BCryptPasswordEncoder encoder;
 
     @Autowired
-    CustomerRepository customerRepository;
+    TokenGenerator tokenGenerator;
 
     @Autowired
-    TokenGenerator tokenGenerator;
+    CustomerRepository customerRepository;
 
     @Autowired
     CustomerService customerService;
 
+    @Autowired
+    EmployeeRepository employeeRepository;
+
     @PostMapping("login")
     public ResponseEntity<AuthToken> login(@RequestBody LoginData loginData) throws RuntimeException {
         Customer customer = customerRepository.findByUsername(loginData.getUsername());
-        if (customer == null) {
+        Employee employee = employeeRepository.findByUsername(loginData.getUsername());
+        if (customer == null && employee == null) {
             throw new RuntimeException("Wrong username or password");
         }
-        if (!encoder.matches(loginData.getPassword(), customer.getPassword())) {
+        if (customer != null) {
+            if (!encoder.matches(loginData.getPassword(), customer.getPassword())) {
+                throw new RuntimeException("Wrong username or password");
+            }
+            return new ResponseEntity<>(tokenGenerator.getTokenForCustomer(customer), HttpStatus.OK);
+        }
+        if (!encoder.matches(loginData.getPassword(), employee.getPassword())) {
             throw new RuntimeException("Wrong username or password");
         }
-        return new ResponseEntity<>(tokenGenerator.getToken(customer), HttpStatus.OK);
+        return new ResponseEntity<>(tokenGenerator.getTokenForEmployee(employee), HttpStatus.OK);
     }
 
-    @PostMapping("signup")
-    public ResponseEntity<AuthToken> signup(@RequestBody Customer customer) {
-        Customer savedCustomer = customerService.newSignup(customer);
-        return new ResponseEntity<>(tokenGenerator.getToken(savedCustomer), HttpStatus.OK);
-    }
+//    @PostMapping("signup")
+//    public ResponseEntity<AuthToken> signup(@RequestBody Customer customer) {
+//        Customer savedCustomer = customerService.add(customer);
+//        return new ResponseEntity<>(tokenGenerator.getToken(savedCustomer), HttpStatus.OK);
+//    }
 
 }

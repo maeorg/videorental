@@ -20,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Customer  {
+public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -48,8 +48,7 @@ public class Customer  {
     @OneToOne(cascade = {jakarta.persistence.CascadeType.ALL})
     private ContactData contactData;
 
-    @Min(value = 0)
-    private Long bonusPoints;
     private Role role;
+
 
 }

@@ -1,5 +1,6 @@
 package ee.katrina.videorental.security;
 
+import ee.katrina.videorental.model.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -42,7 +43,7 @@ public class TokenParser extends BasicAuthenticationFilter {
 
         String requestToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (requestToken != null && requestToken.startsWith("Bearer ")) {
+        if (requestToken != null && requestToken.startsWith("Bearer ") && !requestToken.endsWith("null")) {
 
             requestToken = requestToken.replace("Bearer ", "");
 
@@ -53,12 +54,19 @@ public class TokenParser extends BasicAuthenticationFilter {
                     .getBody();
 
             String personId = claims.getSubject();
-
-            boolean isAdmin = Boolean.parseBoolean(claims.getAudience());
+            String role = claims.getAudience();
 
             List<GrantedAuthority> authorities = new ArrayList<>();
-            if (isAdmin) {
+            if (role.equals(Role.ADMIN.toString())) {
                 GrantedAuthority authority = new SimpleGrantedAuthority("admin");
+                authorities.add(authority);
+            }
+            if (role.equals(Role.EMPLOYEE.toString())) {
+                GrantedAuthority authority = new SimpleGrantedAuthority("employee");
+                authorities.add(authority);
+            }
+            if (role.equals(Role.CUSTOMER.toString())) {
+                GrantedAuthority authority = new SimpleGrantedAuthority("customer");
                 authorities.add(authority);
             }
 

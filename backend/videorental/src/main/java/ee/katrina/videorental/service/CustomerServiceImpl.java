@@ -3,6 +3,7 @@ package ee.katrina.videorental.service;
 import ee.katrina.videorental.dto.CustomerDTO;
 import ee.katrina.videorental.entity.Customer;
 import ee.katrina.videorental.mappers.CustomerMapper;
+import ee.katrina.videorental.model.Role;
 import ee.katrina.videorental.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,6 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO addCustomer(Customer customer) {
         customer.setPassword(encoder.encode(customer.getPassword()));
+        customer.setRole(Role.CUSTOMER);
         return customerMapper.customerToCustomerDto(customerRepository
                 .save(customer));
     }
@@ -66,9 +68,10 @@ public class CustomerServiceImpl implements CustomerService {
                 customerMapper.customerDtoToCustomer(customerDTO))));
     }
 
-    @Override
-    public Customer newSignup(Customer customer) {
-        customer.setPassword(encoder.encode(customer.getPassword()));
-        return customerRepository.save(customer);
-    }
+//    @Override
+//    public Customer newSignup(Customer customer) {
+//        customer.setPassword(encoder.encode(customer.getPassword()));
+//        customer.setRole(Role.CUSTOMER);
+//        return customerRepository.save(customer);
+//    }
 }

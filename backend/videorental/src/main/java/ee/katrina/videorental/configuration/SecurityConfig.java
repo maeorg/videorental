@@ -35,22 +35,21 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(antMatcher("/login")).permitAll()
-                        .requestMatchers(antMatcher("/signup")).permitAll()
-                        .requestMatchers(antMatcher("/api/v1/movie")).permitAll()
+                        .requestMatchers(antMatcher("/signup")).hasAuthority("admin")
                         .requestMatchers(antMatcher("/api/v1/movie/available")).permitAll()
-                        .requestMatchers(antMatcher("/api/v1/rental")).hasAuthority("admin")
-                        .requestMatchers(antMatcher("/api/v1/return")).hasAuthority("admin")
-                        .requestMatchers(antMatcher("/api/v1/customer")).hasAuthority("admin")
+                        .requestMatchers(antMatcher("/api/v1/rental")).hasAnyAuthority("employee", "admin")
+                        .requestMatchers(antMatcher("/api/v1/return")).hasAnyAuthority("employee", "admin")
+                        .requestMatchers(antMatcher("/api/v1/customer")).hasAnyAuthority("employee", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/movie",
                                 HttpMethod.GET.toString())).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/movie",
-                                HttpMethod.POST.toString())).hasAuthority("admin")
+                                HttpMethod.POST.toString())).hasAnyAuthority("employee", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/movie",
-                                HttpMethod.DELETE.toString())).hasAuthority("admin")
+                                HttpMethod.DELETE.toString())).hasAnyAuthority("employee", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/movie",
-                                HttpMethod.PUT.toString())).hasAuthority("admin")
+                                HttpMethod.PUT.toString())).hasAnyAuthority("employee", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/movie",
-                                HttpMethod.PATCH.toString())).hasAuthority("admin")
+                                HttpMethod.PATCH.toString())).hasAnyAuthority("employee", "admin")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
